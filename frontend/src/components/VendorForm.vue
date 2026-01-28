@@ -1,93 +1,193 @@
 <template>
-  <div class="vendor-form">
-    <h2>Add New Vendor</h2>
-    <form @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input 
-          id="name" 
-          v-model="form.name" 
-          type="text" 
-          required 
-          placeholder="Company name"
-        />
+  <div :class="styles.formContainer">
+    <h2 :class="styles.formHeader">Add New Vendor</h2>
+    <form @submit.prevent="submitForm" :class="styles.formGroupContainer">
+      <div :class="styles.formGroup">
+        <label for="name" :class="styles.label">Name:</label>
+        <div :class="styles.inputWrapper">
+          <svg
+            :class="styles.inputIcon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <input
+            id="name"
+            v-model="form.name"
+            type="text"
+            required
+            placeholder="Company name"
+            :class="styles.inputWithIcon"
+          />
+        </div>
       </div>
-      
-      <div class="form-group">
-        <label for="contactPerson">Contact Person:</label>
-        <input 
-          id="contactPerson" 
-          v-model="form.contact_person" 
-          type="text" 
-          required 
-          placeholder="Contact person name"
-        />
+
+      <div :class="styles.formGroup">
+        <label for="contactPerson" :class="styles.label">Contact Person:</label>
+        <div :class="styles.inputWrapper">
+          <svg
+            :class="styles.inputIcon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <input
+            id="contactPerson"
+            v-model="form.contact_person"
+            type="text"
+            required
+            placeholder="Contact person name"
+            :class="styles.inputWithIcon"
+          />
+        </div>
       </div>
-      
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input 
-          id="email" 
-          v-model="form.email" 
-          type="email" 
-          required 
-          placeholder="contact@example.com"
-        />
+
+      <div :class="styles.formGroup">
+        <label for="email" :class="styles.label">Email:</label>
+        <div :class="styles.inputWrapper">
+          <svg
+            :class="styles.inputIcon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+          <input
+            id="email"
+            v-model="form.email"
+            type="email"
+            required
+            placeholder="contact@example.com"
+            :class="styles.inputWithIcon"
+          />
+        </div>
       </div>
-      
-      <div class="form-group">
-        <label for="partnerType">Partner Type:</label>
-        <select 
-          id="partnerType" 
-          v-model="form.partner_type" 
+
+      <div :class="styles.formGroup">
+        <label for="partnerType" :class="styles.label">Partner Type:</label>
+        <select
+          id="partnerType"
+          v-model="form.partner_type"
           required
+          :class="styles.selectField"
         >
           <option value="Supplier">Supplier</option>
           <option value="Partner">Partner</option>
         </select>
       </div>
-      
-      <div class="form-actions">
-        <button type="submit" :disabled="vendorStore.loading">
-          {{ vendorStore.loading ? 'Submitting...' : 'Add Vendor' }}
+
+      <div :class="styles.formGroupContainer">
+        <button
+          type="submit"
+          :disabled="vendorStore.loading || isSubmitting || !isFormValid"
+          :class="styles.buttonBase"
+        >
+          {{
+            vendorStore.loading || isSubmitting ? "Submitting..." : "Add Vendor"
+          }}
         </button>
-        <div v-if="vendorStore.error" class="error-message">{{ vendorStore.error }}</div>
-        <div v-if="success" class="success-message">Vendor added successfully!</div>
+        <div v-if="formValidationError" :class="styles.errorMessage">
+          {{ formValidationError }}
+        </div>
+        <div v-if="vendorStore.error" :class="styles.errorMessage">
+          {{ vendorStore.error }}
+        </div>
+        <div v-if="success" :class="styles.successMessage">
+          Vendor added successfully!
+        </div>
       </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { useVendorStore } from '../stores/vendorStore';
-import type { Vendor } from '../types/Vendor';
+import { reactive, ref, computed } from "vue";
+import { useVendorStore } from "../stores/vendorStore";
+import { useFormStyles } from "../composables/useFormStyles";
+import type { Vendor } from "../types/Vendor";
 
 const vendorStore = useVendorStore();
+const styles = useFormStyles();
 
 const form = reactive<Vendor>({
-  name: '',
-  contact_person: '',
-  email: '',
-  partner_type: 'Supplier'
+  name: "",
+  contact_person: "",
+  email: "",
+  partner_type: "Supplier",
 });
 
 const success = ref(false);
+const isSubmitting = ref(false);
+const formValidationError = ref("");
+
+// Validate form fields
+const isFormValid = computed(() => {
+  return (
+    form.name.trim() !== "" &&
+    form.contact_person.trim() !== "" &&
+    form.email.trim() !== "" &&
+    isValidEmail(form.email)
+  );
+});
+
+// Validate email format
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
 const resetForm = () => {
-  form.name = '';
-  form.contact_person = '';
-  form.email = '';
-  form.partner_type = 'Supplier';
+  form.name = "";
+  form.contact_person = "";
+  form.email = "";
+  form.partner_type = "Supplier";
+  formValidationError.value = "";
 };
 
 const submitForm = async () => {
+  // Prevent multiple submissions
+  if (isSubmitting.value) {
+    return;
+  }
+
+  formValidationError.value = "";
   success.value = false;
-  
+
+  // Validate form fields
+  if (!form.name.trim()) {
+    formValidationError.value = "Please enter a vendor name";
+    return;
+  }
+
+  if (!form.contact_person.trim()) {
+    formValidationError.value = "Please enter a contact person name";
+    return;
+  }
+
+  if (!form.email.trim()) {
+    formValidationError.value = "Please enter an email address";
+    return;
+  }
+
+  if (!isValidEmail(form.email)) {
+    formValidationError.value = "Please enter a valid email address";
+    return;
+  }
+
+  isSubmitting.value = true;
+
   try {
     await vendorStore.addVendor({ ...form });
     success.value = true;
-    
+
     // Reset the form after successful submission
     setTimeout(() => {
       resetForm();
@@ -95,69 +195,39 @@ const submitForm = async () => {
     }, 2000);
   } catch (err) {
     // Error is already handled in the store
+  } finally {
+    isSubmitting.value = false;
   }
 };
 </script>
 
 <style scoped>
-.vendor-form {
-  max-width: 500px;
-  margin: 20px 0;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.form-group {
-  margin-bottom: 15px;
+.animate-slideIn {
+  animation: slideIn 0.3s ease;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.bg-select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 20px;
 }
 
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.form-actions {
-  margin-top: 20px;
-}
-
-button {
-  padding: 10px 15px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.error-message {
-  color: #f44336;
-  margin-top: 10px;
-}
-
-.success-message {
-  color: #4CAF50;
-  margin-top: 10px;
+@media (max-width: 1024px) {
+  :deep(.sticky) {
+    position: static;
+    top: auto;
+  }
 }
 </style>

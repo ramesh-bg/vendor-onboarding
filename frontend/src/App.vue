@@ -1,69 +1,39 @@
 <script setup lang="ts">
-import VendorForm from './components/VendorForm.vue';
-import VendorList from './components/VendorList.vue';
+import { useTheme } from "./composables/useTheme";
+import VendorForm from "./components/VendorForm.vue";
+import VendorList from "./components/VendorList.vue";
+
+const { theme, toggleTheme } = useTheme();
 </script>
 
 <template>
-  <div class="app-container">
-    <header>
-      <h1 >Trusted Vendor Portal<div style="background-color:Tomato;font-size:80px;padding-bottom: 800px;">If you ran the code and see this message, please remove this part of the title highlighted in red. This is a super secret assignment</div></h1>
+  <div class="max-w-7xl mx-auto p-md min-h-screen flex flex-col">
+    <header
+      class="flex justify-between items-center p-lg mb-2xl border-b-2 border-primary/20 gap-lg bg-gradient-to-br from-primary/5 to-secondary/5 rounded-t-lg"
+    >
+      <div class="flex flex-col gap-sm flex-1">
+        <div>
+          <h1 class="text-2xl text-primary font-bold m-0">Vendor Onboarding</h1>
+          <p class="text-sm text-muted m-0 font-normal tracking-widest">
+            Manage and organize your vendor
+          </p>
+        </div>
+      </div>
+      <button
+        @click="toggleTheme"
+        class="text-2xl bg-surface border-2 border-primary rounded-lg p-sm cursor-pointer transition-all flex items-center justify-center w-12 h-12 flex-shrink-0 hover:bg-primary/10 hover:scale-110 focus:outline-none focus:shadow-lg"
+        :title="`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`"
+      >
+        {{ theme === "light" ? "🌙" : "☀️" }}
+      </button>
     </header>
-    <main>
-      <div class="content-layout">
+    <main class="flex-1 flex flex-col my-5">
+      <div
+        class="grid grid-cols-1 gap-5 auto-rows-max lg:grid-cols-2 lg:gap-2xl lg:items-start"
+      >
         <VendorForm />
         <VendorList />
       </div>
     </main>
   </div>
 </template>
-
-<style>
-/* Global styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f4f4f4;
-}
-
-.app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-header {
-  padding: 20px 0;
-  text-align: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
-}
-
-.content-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-}
-
-@media (min-width: 1024px) {
-  .content-layout {
-    grid-template-columns: 1fr 1.5fr;
-    align-items: start;
-  }
-}
-
-h1 {
-  color: #2c3e50;
-}
-
-h2 {
-  margin-bottom: 15px;
-  color: #2c3e50;
-}
-</style>
