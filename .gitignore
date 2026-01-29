@@ -83,6 +83,7 @@ backend-java/.mvn/wrapper/maven-wrapper.jar
 
 # Backend node
 backend-node/dist/
+frontend/dist/
 
 # IntelliJ IDEA
 .idea/
