@@ -81,6 +81,9 @@ backend-java/buildNumber.properties
 backend-java/.mvn/timing.properties
 backend-java/.mvn/wrapper/maven-wrapper.jar
 
+# Backend node
+backend-node/dist/
+
 # IntelliJ IDEA
 .idea/
 *.iws
