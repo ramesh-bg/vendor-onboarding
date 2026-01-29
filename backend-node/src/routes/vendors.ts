@@ -6,12 +6,47 @@ const router = Router();
 
 // GET /vendors - List all vendors
 router.get("/", (req: Request, res: Response) => {
-  db.all("SELECT * FROM vendors", [], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(rows);
-  });
+  const { page, per_page } = req.query;
+
+  const pageNum = page ? parseInt(String(page), 10) : NaN;
+  const perPageNum = per_page ? parseInt(String(per_page), 10) : NaN;
+
+  const pageVal = Number.isNaN(pageNum) || pageNum < 1 ? 1 : pageNum;
+  const perPageVal =
+    Number.isNaN(perPageNum) || perPageNum < 1 ? 10 : Math.min(perPageNum, 100);
+
+  db.get(
+    "SELECT COUNT(*) as count FROM vendors",
+    (err, result: { count: number }) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+
+      const total = result.count;
+      const totalPages = Math.max(1, Math.ceil(total / perPageVal));
+      const offset = (pageVal - 1) * perPageVal;
+
+      db.all(
+        "SELECT * FROM vendors LIMIT ? OFFSET ?",
+        [perPageVal, offset],
+        (err2, rows) => {
+          if (err2) {
+            return res.status(500).json({ error: err2.message });
+          }
+
+          return res.json({
+            data: rows,
+            meta: {
+              total,
+              page: pageVal,
+              per_page: perPageVal,
+              total_pages: totalPages,
+            },
+          });
+        },
+      );
+    },
+  );
 });
 
 // POST /vendors - Register a new vendor
