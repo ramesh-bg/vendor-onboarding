@@ -83,31 +83,9 @@
       <p>{{ vendorStore.fetchError }}</p>
     </div>
 
-    <!-- Empty State -->
-    <div
-      v-else-if="vendorStore.vendors.length === 0"
-      :class="styles.emptyState"
-      role="status"
-    >
-      <svg
-        :class="styles.emptyIcon"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-      >
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-        <path d="M9 12h6"></path>
-      </svg>
-      <p :class="styles.emptyTitle">No Vendors Yet</p>
-      <p :class="styles.emptyDescription">
-        Start by adding your first vendor using the form on the left.
-      </p>
-    </div>
-
     <!-- Vendor Table -->
     <div
-      v-else
+      v-if="!vendorStore.loadingFetch || vendorStore.vendors.length > 0"
       :class="styles.tableWrapper"
       class="vendor-list-scroll max-h-[600px] overflow-y-auto"
     >
@@ -123,6 +101,17 @@
           </tr>
         </thead>
         <tbody>
+          <tr v-if="vendorStore.vendors.length === 0" role="row">
+            <td :colspan="6" class="no-results-message">
+              <p>
+                {{
+                  searchQuery
+                    ? "No vendors found with these search filters"
+                    : "No vendors"
+                }}
+              </p>
+            </td>
+          </tr>
           <tr
             v-for="(vendor, index) in vendorStore.vendors"
             :key="vendor.id"
@@ -278,7 +267,12 @@ const clearSearch = () => {
 };
 
 const initializeObserver = () => {
-  if (!sentinel.value || observer) return;
+  if (!sentinel.value) return;
+
+  // Disconnect existing observer if it exists
+  if (observer) {
+    observer.disconnect();
+  }
 
   observer = new IntersectionObserver(
     (entries) => {
@@ -296,7 +290,7 @@ const initializeObserver = () => {
       root: null,
       rootMargin: "100px",
       threshold: 0.1,
-    }
+    },
   );
 
   observer.observe(sentinel.value);
@@ -313,7 +307,7 @@ watch(
     if (newSentinel) {
       initializeObserver();
     }
-  }
+  },
 );
 
 onBeforeUnmount(() => {
@@ -379,6 +373,17 @@ onBeforeUnmount(() => {
   font-size: var(--font-size-sm);
   font-style: italic;
   padding-top: 20px;
+}
+
+.no-results-message {
+  text-align: center;
+  color: rgb(var(--color-text) / 0.6);
+  font-size: var(--font-size-sm);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.no-results-message p {
+  margin: 0;
 }
 
 .search-container {

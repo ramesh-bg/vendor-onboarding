@@ -6,7 +6,7 @@ const router = Router();
 
 // GET /vendors - List all vendors
 router.get("/", (req: Request, res: Response) => {
-  const { page, per_page } = req.query;
+  const { page, per_page, name, email } = req.query;
 
   const pageNum = page ? parseInt(String(page), 10) : NaN;
   const perPageNum = per_page ? parseInt(String(per_page), 10) : NaN;
@@ -15,8 +15,26 @@ router.get("/", (req: Request, res: Response) => {
   const perPageVal =
     Number.isNaN(perPageNum) || perPageNum < 1 ? 10 : Math.min(perPageNum, 100);
 
+  // Build WHERE clause for filters
+  const filters: string[] = [];
+  const params: (string | number)[] = [];
+
+  if (name) {
+    filters.push("name LIKE ?");
+    params.push(`%${String(name)}%`);
+  }
+
+  if (email) {
+    filters.push("email LIKE ?");
+    params.push(`%${String(email)}%`);
+  }
+
+  const whereClause =
+    filters.length > 0 ? "WHERE " + filters.join(" AND ") : "";
+
   db.get(
-    "SELECT COUNT(*) as count FROM vendors",
+    `SELECT COUNT(*) as count FROM vendors ${whereClause}`,
+    params,
     (err, result: { count: number }) => {
       if (err) {
         return res.status(500).json({ error: err.message });
@@ -27,8 +45,8 @@ router.get("/", (req: Request, res: Response) => {
       const offset = (pageVal - 1) * perPageVal;
 
       db.all(
-        "SELECT * FROM vendors LIMIT ? OFFSET ?",
-        [perPageVal, offset],
+        `SELECT * FROM vendors ${whereClause} LIMIT ? OFFSET ?`,
+        [...params, perPageVal, offset],
         (err2, rows) => {
           if (err2) {
             return res.status(500).json({ error: err2.message });

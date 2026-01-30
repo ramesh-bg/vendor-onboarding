@@ -44,7 +44,7 @@ export const VendorService = {
   async deleteVendor(id: number): Promise<void> {
     try {
       const response = await fetch(`${API_URL}/vendors/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -91,21 +91,6 @@ export const VendorService = {
       return (data ?? {}) as Vendor;
     } catch (error: any) {
       console.error("Error creating vendor:", error);
-      throw error;
-    }
-  },
-
-  async deleteVendor(id: string): Promise<void> {
-    try {
-      const response = await fetch(`${API_URL}/vendors/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (error) {
-      console.error("Error deleting vendor:", error);
       throw error;
     }
   },
