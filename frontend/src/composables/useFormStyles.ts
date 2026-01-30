@@ -7,9 +7,13 @@ export function useFormStyles() {
 
     formGroupContainer: "flex flex-col gap-md",
 
-    formGroup: "flex flex-col gap-sm",
+    // Gap as margin-top only: space after label, minimal after input (error slot stays tight)
+    formGroup:
+      "flex flex-col [&>*:nth-child(2)]:mt-sm [&>*:nth-child(3)]:mt-0.5",
 
     label: "font-semibold text-text text-sm tracking-wider",
+
+    optionalLabel: "font-normal text-muted",
 
     inputWrapper: "relative flex items-center",
 
@@ -22,11 +26,26 @@ export function useFormStyles() {
     inputWithIcon:
       "w-full pl-2xl py-sm px-md border-2 border-border rounded-md text-base text-text bg-surface font-sans transition-all hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/10",
 
+    inputError:
+      "border-danger focus:border-danger focus:ring-danger/20",
+
+    fieldErrorSlot:
+      "min-h-4 flex items-center",
+
+    fieldError:
+      "text-danger text-xs leading-tight m-0 p-0",
+
     selectField:
       "w-full py-sm px-md border-2 border-border rounded-md text-base text-text bg-surface font-sans transition-all hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/10 appearance-none bg-select cursor-pointer pr-2xl",
 
     buttonBase:
       "py-sm px-lg bg-primary text-white border-none rounded-md cursor-pointer font-semibold transition-all shadow-md uppercase tracking-widest text-sm enabled:hover:bg-primary/90 enabled:hover:shadow-lg enabled:hover:-translate-y-0.5 enabled:active:translate-y-0 focus:outline-none focus:ring-3 focus:ring-primary/30 disabled:bg-muted disabled:cursor-not-allowed disabled:opacity-60",
+
+    buttonSecondary:
+      "py-sm px-lg bg-muted/20 text-text rounded-md cursor-pointer font-semibold transition-all hover:bg-muted/30 focus:outline-none focus:ring-2 focus:ring-muted/50",
+
+    buttonDanger:
+      "py-sm px-lg bg-danger text-white rounded-md cursor-pointer font-semibold transition-all hover:bg-danger/90 focus:outline-none focus:ring-2 focus:ring-danger/50",
 
     errorMessage:
       "text-danger text-sm p-md bg-danger/10 border-l-4 border-danger rounded-sm animate-slideIn",

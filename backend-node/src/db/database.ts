@@ -50,12 +50,48 @@ db.serialize(() => {
       // Only insert sample data if the table is empty
       if (result.count === 0) {
         db.run(`
-                INSERT INTO vendors (name, contact_person, email, partner_type) VALUES 
-                ('Acme Corp', 'John Doe', 'john@acmecorp.com', 'Supplier'),
-                ('Globex Inc', 'Jane Smith', 'jane@globex.com', 'Supplier'),
-                ('Initech LLC', 'Michael Johnson', 'michael@initech.com', 'Partner'),
-                ('Umbrella Corp', 'Sarah Williams', 'sarah@umbrellacorp.com', 'Partner')
-            `);
+  INSERT INTO vendors (name, contact_person, email, partner_type) VALUES
+  ('Acme Corp', 'John Doe', 'john.doe@acme.com', 'Supplier'),
+  ('Globex Inc', 'Jane Smith', 'jane.smith@globex.com', 'Supplier'),
+  ('Initech LLC', 'Michael Johnson', 'michael.johnson@initech.com', 'Partner'),
+  ('Umbrella Corp', 'Sarah Williams', 'sarah.williams@umbrella.com', 'Partner'),
+  ('Stark Industries', 'Tony Stark', 'tony.stark@starkindustries.com', 'Supplier'),
+  ('Wayne Enterprises', 'Bruce Wayne', 'bruce.wayne@wayneenterprises.com', 'Partner'),
+  ('Wonka Industries', 'Willy Wonka', 'willy.wonka@wonka.com', 'Supplier'),
+  ('Hooli', 'Gavin Belson', 'gavin.belson@hooli.com', 'Supplier'),
+  ('Soylent Corp', 'Frank Thorn', 'frank.thorn@soylent.com', 'Partner'),
+  ('Tyrell Corporation', 'Eldon Tyrell', 'eldon.tyrell@tyrell.com', 'Supplier'),
+  ('Cyberdyne Systems', 'Miles Dyson', 'miles.dyson@cyberdyne.com', 'Partner'),
+  ('Oscorp', 'Norman Osborn', 'norman.osborn@oscorp.com', 'Supplier'),
+  ('Aperture Science', 'Cave Johnson', 'cave.johnson@aperture.com', 'Partner'),
+  ('Black Mesa', 'Eli Vance', 'eli.vance@blackmesa.com', 'Supplier'),
+  ('Blue Sun Corp', 'Atherton Wing', 'atherton.wing@bluesun.com', 'Partner'),
+  ('Gringotts Bank', 'Ragnok', 'ragnok@gringotts.com', 'Supplier'),
+  ('Monarch Solutions', 'Laura Chen', 'laura.chen@monarch.com', 'Partner'),
+  ('Nimbus Tech', 'Arjun Rao', 'arjun.rao@nimbus.com', 'Supplier'),
+  ('Zenith Labs', 'Priya Kapoor', 'priya.kapoor@zenithlabs.com', 'Partner'),
+    ('Atlas Logistics', 'Robert King', 'robert.king@atlaslogistics.com', 'Supplier'),
+  ('Nova Retail', 'Emily Carter', 'emily.carter@novaretail.com', 'Partner'),
+  ('Pulse Technologies', 'Daniel Nguyen', 'daniel.nguyen@pulsetech.com', 'Supplier'),
+  ('Vertex Solutions', 'Anita Verma', 'anita.verma@vertexsolutions.com', 'Partner'),
+  ('Skyline Systems', 'Mark Thompson', 'mark.thompson@skylinesystems.com', 'Supplier'),
+  ('BrightPath Consulting', 'Olivia Brown', 'olivia.brown@brightpath.com', 'Partner'),
+  ('Ironclad Manufacturing', 'Peter Wilson', 'peter.wilson@ironclad.com', 'Supplier'),
+  ('CloudNine Software', 'Rahul Mehta', 'rahul.mehta@cloudnine.com', 'Partner'),
+  ('Evergreen Supplies', 'Susan Miller', 'susan.miller@evergreensupplies.com', 'Supplier'),
+  ('Quantum Dynamics', 'Alex Turner', 'alex.turner@quantumdynamics.com', 'Partner'),
+  ('BlueWave Networks', 'Chris Anderson', 'chris.anderson@bluewave.com', 'Supplier'),
+  ('NextGen Analytics', 'Neha Sharma', 'neha.sharma@nextgenanalytics.com', 'Partner'),
+  ('RapidRoute Express', 'Jason Lee', 'jason.lee@rapidroute.com', 'Supplier'),
+  ('Axiom Enterprises', 'Karthik Iyer', 'karthik.iyer@axiomenterprises.com', 'Partner'),
+  ('FusionWorks', 'Megan Clark', 'megan.clark@fusionworks.com', 'Supplier'),
+  ('GreenLeaf Organics', 'Daniel Perez', 'daniel.perez@greenleaf.com', 'Partner'),
+  ('Orbit Systems', 'Nathan Scott', 'nathan.scott@orbitsystems.com', 'Supplier'),
+  ('Silverline Solutions', 'Pooja Nair', 'pooja.nair@silverline.com', 'Partner'),
+  ('CoreBridge Tech', 'Steven Hall', 'steven.hall@corebridge.com', 'Supplier'),
+  ('Orion Systems', 'David Miller', 'david.miller@orionsystems.com', 'Supplier');
+`);
+
         console.log("Sample vendor data inserted");
       }
     },

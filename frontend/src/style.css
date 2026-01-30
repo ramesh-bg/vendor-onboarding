@@ -59,6 +59,8 @@
 }
 
 [data-theme="dark"] {
+  color-scheme: dark;
+
   --color-primary: 96 165 250;
   --color-secondary: 129 140 248;
   --color-success: 74 222 128;

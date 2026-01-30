@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import VendorList from "../VendorList.vue";
@@ -7,6 +7,9 @@ import { useVendorStore } from "../../stores/vendorStore";
 describe("VendorList.vue", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+    // Prevent actual network calls during component mount
+    const store = useVendorStore();
+    store.fetchVendors = vi.fn();
   });
 
   it("renders vendor directory title", () => {
@@ -26,7 +29,8 @@ describe("VendorList.vue", () => {
     });
 
     const store = useVendorStore();
-    store.loading = true;
+    store.loadingFetch = true;
+    store.vendors = [];
     await wrapper.vm.$nextTick();
 
     expect(wrapper.text()).toContain("Loading vendors...");
@@ -41,8 +45,8 @@ describe("VendorList.vue", () => {
 
     const store = useVendorStore();
     store.vendors = [];
-    store.loading = false;
-    store.error = null;
+    store.loadingFetch = false;
+    store.fetchError = null;
     await wrapper.vm.$nextTick();
 
     expect(wrapper.text()).toContain("No Vendors Yet");
@@ -57,15 +61,15 @@ describe("VendorList.vue", () => {
     });
 
     const store = useVendorStore();
-    store.error = "Failed to load vendors";
-    store.loading = false;
+    store.fetchError = "Failed to load vendors";
+    store.loadingFetch = false;
     store.vendors = [];
     await wrapper.vm.$nextTick();
 
     expect(wrapper.text()).toContain("Failed to load vendors");
   });
 
-  it("displays vendor count badge", async () => {
+  it("displays paginated vendor count", async () => {
     const wrapper = mount(VendorList, {
       global: {
         plugins: [createPinia()],
@@ -89,11 +93,14 @@ describe("VendorList.vue", () => {
         partner_type: "Partner" as const,
       },
     ];
-    store.loading = false;
-    store.error = null;
+    store.total = 25;
+    store.page = 1;
+    store.totalPages = 3;
+    store.loadingFetch = false;
+    store.fetchError = null;
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.text()).toContain("2 vendors");
+    expect(wrapper.text()).toContain("2 of 25 vendors");
   });
 
   it("renders vendor table with data", async () => {
@@ -113,8 +120,8 @@ describe("VendorList.vue", () => {
         partner_type: "Supplier" as const,
       },
     ];
-    store.loading = false;
-    store.error = null;
+    store.loadingFetch = false;
+    store.fetchError = null;
     await wrapper.vm.$nextTick();
 
     expect(wrapper.text()).toContain("Acme Corp");
@@ -147,11 +154,20 @@ describe("VendorList.vue", () => {
         partner_type: "Partner" as const,
       },
     ];
-    store.loading = false;
-    store.error = null;
+    store.loadingFetch = false;
+    store.fetchError = null;
+    store.page = 1;
+    store.totalPages = 3;
     await wrapper.vm.$nextTick();
 
-    const rows = wrapper.findAll("tbody tr");
+    const rows = wrapper.findAll("tbody tr").filter((row) => {
+      const html = row.html();
+      return (
+        !html.includes("sentinel") &&
+        !html.includes("skeleton") &&
+        !html.includes("no-more-vendors")
+      );
+    });
     expect(rows.length).toBe(2);
   });
 

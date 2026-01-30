@@ -1,10 +1,11 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { createPinia, setActivePinia } from "pinia";
 import { useVendorStore } from "../../stores/vendorStore";
 
 describe("Vendor Store", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+    vi.clearAllMocks();
   });
 
   it("initializes with empty vendors array", () => {
@@ -14,12 +15,12 @@ describe("Vendor Store", () => {
 
   it("initializes with loading as false", () => {
     const store = useVendorStore();
-    expect(store.loading).toBe(false);
+    expect(store.loadingFetch).toBe(false);
   });
 
   it("initializes with error as null", () => {
     const store = useVendorStore();
-    expect(store.error).toBeNull();
+    expect(store.fetchError).toBeNull();
   });
 
   it("has fetchVendors action", () => {
@@ -49,20 +50,20 @@ describe("Vendor Store", () => {
 
   it("can update loading state", () => {
     const store = useVendorStore();
-    store.loading = true;
-    expect(store.loading).toBe(true);
+    store.loadingAdd = true;
+    expect(store.loadingAdd).toBe(true);
 
-    store.loading = false;
-    expect(store.loading).toBe(false);
+    store.loadingAdd = false;
+    expect(store.loadingAdd).toBe(false);
   });
 
   it("can update error state", () => {
     const store = useVendorStore();
-    store.error = "Test error";
-    expect(store.error).toBe("Test error");
+    store.addError = "Test error";
+    expect(store.addError).toBe("Test error");
 
-    store.error = null;
-    expect(store.error).toBeNull();
+    store.addError = null;
+    expect(store.addError).toBeNull();
   });
 
   it("multiple vendors can be added", () => {
