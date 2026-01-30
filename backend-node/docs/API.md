@@ -6,35 +6,65 @@ BASE_URL=${BASE_URL:-http://localhost:3000}
 
 ## GET /api/vendors
 
-List all registered vendors.
+List all registered vendors with optional filtering and pagination.
 
 ### Request
 
 ```bash
+# Get all vendors
 curl -X GET ${BASE_URL}/api/vendors
+
+# Filter by company name
+curl -X GET "${BASE_URL}/api/vendors?name=Acme"
+
+# Filter by email
+curl -X GET "${BASE_URL}/api/vendors?email=john@"
+
+# Combine filters
+curl -X GET "${BASE_URL}/api/vendors?name=Acme&email=john@acme.com"
+
+# With pagination
+curl -X GET "${BASE_URL}/api/vendors?page=2&per_page=20"
 ```
+
+### Query Parameters
+
+| Parameter  | Type    | Required | Description                                    |
+| ---------- | ------- | -------- | ---------------------------------------------- |
+| `name`     | string  | No       | Filter vendors by company name (partial match) |
+| `email`    | string  | No       | Filter vendors by email (partial match)        |
+| `page`     | integer | No       | Page number (default: 1, minimum: 1)           |
+| `per_page` | integer | No       | Results per page (default: 10, maximum: 100)   |
 
 ### Response
 
 **Status:** 200 OK
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Acme Corp",
-    "contact_person": "John Doe",
-    "email": "john@acmecorp.com",
-    "partner_type": "Supplier"
-  },
-  {
-    "id": 2,
-    "name": "Globex Inc",
-    "contact_person": "Jane Smith",
-    "email": "jane@globex.com",
-    "partner_type": "Supplier"
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Acme Corp",
+      "contact_person": "John Doe",
+      "email": "john@acmecorp.com",
+      "partner_type": "Supplier"
+    },
+    {
+      "id": 2,
+      "name": "Globex Inc",
+      "contact_person": "Jane Smith",
+      "email": "jane@globex.com",
+      "partner_type": "Supplier"
+    }
+  ],
+  "meta": {
+    "total": 45,
+    "page": 1,
+    "per_page": 10,
+    "total_pages": 5
   }
-]
+}
 ```
 
 ### Error Response
