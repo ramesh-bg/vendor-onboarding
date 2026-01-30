@@ -12,15 +12,7 @@
           >:</label
         >
         <div :class="styles.inputWrapper">
-          <svg
-            :class="styles.inputIcon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+          <CompanyIcon :class="styles.inputIcon" />
           <input
             id="name"
             v-model="form.name"
@@ -47,15 +39,7 @@
       <div :class="styles.formGroup">
         <label for="contactPerson" :class="styles.label">Contact Person</label>
         <div :class="styles.inputWrapper">
-          <svg
-            :class="styles.inputIcon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+          <UserIcon :class="styles.inputIcon" />
           <input
             id="contactPerson"
             v-model="form.contact_person"
@@ -91,15 +75,7 @@
           >:</label
         >
         <div :class="styles.inputWrapper">
-          <svg
-            :class="styles.inputIcon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
-            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-          </svg>
+          <MailIcon :class="styles.inputIcon" />
           <input
             id="email"
             v-model="form.email"
@@ -132,21 +108,25 @@
             (optional)</span
           >:</label
         >
-        <select
-          id="partnerType"
-          v-model="form.partner_type"
-          :required="fieldConfig.partner_type.required"
-          :class="[
-            styles.selectField,
-            touched.partner_type &&
-              getFieldError('partner_type') &&
-              styles.inputError,
-          ]"
-          @blur="markTouched('partner_type')"
-        >
-          <option value="Supplier">Supplier</option>
-          <option value="Partner">Partner</option>
-        </select>
+        <div class="relative">
+          <select
+            id="partnerType"
+            v-model="form.partner_type"
+            :required="fieldConfig.partner_type.required"
+            :class="[
+              styles.selectField,
+              touched.partner_type &&
+                getFieldError('partner_type') &&
+                styles.inputError,
+              'appearance-none'
+            ]"
+            @blur="markTouched('partner_type')"
+          >
+            <option value="Supplier">Supplier</option>
+            <option value="Partner">Partner</option>
+          </select>
+          <ArrowDownIcon class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" />
+        </div>
         <div :class="styles.fieldErrorSlot">
           <p
             v-if="touched.partner_type && getFieldError('partner_type')"
@@ -187,6 +167,10 @@
 import { reactive, ref, computed } from "vue";
 import { useVendorStore } from "../stores/vendorStore";
 import { useFormStyles } from "../composables/useFormStyles";
+import MailIcon from "./icons/MailIcon.vue";
+import ArrowDownIcon from "./icons/ArrowDownIcon.vue";
+import CompanyIcon from "./icons/CompanyIcon.vue";
+import UserIcon from "./icons/UserIcon.vue";
 import type { Vendor } from "../types/Vendor";
 
 const vendorStore = useVendorStore();
@@ -339,23 +323,5 @@ const submitForm = async () => {
   animation: slideIn 0.3s ease;
 }
 
-.bg-select {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 20px;
-}
 
-@media (max-width: 1024px) {
-  :deep(.sticky) {
-    position: static;
-    top: auto;
-  }
-}
-
-@media (max-width: 1023px) {
-  .vendor-form-card {
-    position: static;
-  }
-}
 </style>

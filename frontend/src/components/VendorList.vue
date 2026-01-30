@@ -70,16 +70,7 @@
       role="alert"
       aria-live="assertive"
     >
-      <svg
-        :class="styles.errorIcon"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-      >
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="8" x2="12" y2="12"></line>
-        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-      </svg>
+      <ErrorIcon :class="styles.errorIcon" />
       <p>{{ vendorStore.fetchError }}</p>
     </div>
 
@@ -223,6 +214,7 @@
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import { useVendorStore } from "../stores/vendorStore";
 import { useFormStyles } from "../composables/useFormStyles";
+import ErrorIcon from "./icons/ErrorIcon.vue";
 import TrashIcon from "./icons/TrashIcon.vue";
 import ConfirmationDialog from "./common/ConfirmationDialog.vue";
 import type { Vendor } from "../types/Vendor";
@@ -290,7 +282,7 @@ const initializeObserver = () => {
       root: null,
       rootMargin: "100px",
       threshold: 0.1,
-    },
+    }
   );
 
   observer.observe(sentinel.value);
@@ -307,7 +299,7 @@ watch(
     if (newSentinel) {
       initializeObserver();
     }
-  },
+  }
 );
 
 onBeforeUnmount(() => {
