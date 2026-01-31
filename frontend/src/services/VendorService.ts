@@ -13,7 +13,6 @@ export interface PaginatedResponse {
 const API_URL =
   import.meta.env.VITE_API_URL_NODE || "http://localhost:3000/api";
 
-/* ---------- helpers ---------- */
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, options);
   const text = await res.text();
@@ -30,7 +29,6 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
   return data as T;
 }
 
-/* ---------- service ---------- */
 export const VendorService = {
   getVendors(
     page = 1,
