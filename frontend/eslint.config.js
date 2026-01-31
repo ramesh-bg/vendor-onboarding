@@ -5,7 +5,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['node_modules', 'dist', 'build', 'coverage', '.git']
+    ignores: ['node_modules', 'dist', 'build', 'coverage', '.git'],
   },
   js.configs.recommended,
   ...ts.configs.recommended,
@@ -15,14 +15,14 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node
+        ...globals.node,
       },
       parser: vue.parseForESLint,
       parserOptions: {
         parser: ts.parser,
         ecmaVersion: 'latest',
-        sourceType: 'module'
-      }
+        sourceType: 'module',
+      },
     },
     rules: {
       'vue/multi-word-component-names': 'off',
@@ -30,10 +30,10 @@ export default [
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          argsIgnorePattern: '^_'
-        }
+          argsIgnorePattern: '^_',
+        },
       ],
-      '@typescript-eslint/no-explicit-any': 'warn'
-    }
-  }
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
+  },
 ];

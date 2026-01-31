@@ -4,7 +4,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['node_modules', 'dist', 'build', 'coverage', '.git']
+    ignores: ['node_modules', 'dist', 'build', 'coverage', '.git'],
   },
   js.configs.recommended,
   ...ts.configs.recommended,
@@ -12,22 +12,22 @@ export default [
     files: ['**/*.{js,ts}'],
     languageOptions: {
       globals: {
-        ...globals.node
+        ...globals.node,
       },
       parser: ts.parser,
       parserOptions: {
         ecmaVersion: 'latest',
-        sourceType: 'module'
-      }
+        sourceType: 'module',
+      },
     },
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          argsIgnorePattern: '^_'
-        }
+          argsIgnorePattern: '^_',
+        },
       ],
-      '@typescript-eslint/no-explicit-any': 'warn'
-    }
-  }
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
+  },
 ];
