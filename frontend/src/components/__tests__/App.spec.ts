@@ -1,19 +1,24 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
 import App from "../../App.vue";
 import VendorForm from "../VendorForm.vue";
 import VendorList from "../VendorList.vue";
+import { useVendorStore } from "../../stores/vendorStore";
 
 describe("App.vue", () => {
+  let pinia = createPinia();
+
   beforeEach(() => {
-    setActivePinia(createPinia());
+    setActivePinia(pinia);
+    const store = useVendorStore();
+    store.fetchVendors = vi.fn();
   });
 
   it("renders app header with title and subtitle", () => {
     const wrapper = mount(App, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
     expect(wrapper.text()).toContain("Maersk");
@@ -23,7 +28,7 @@ describe("App.vue", () => {
   it("renders both VendorForm and VendorList components", () => {
     const wrapper = mount(App, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
     expect(wrapper.findComponent(VendorForm).exists()).toBe(true);
@@ -33,7 +38,7 @@ describe("App.vue", () => {
   it("has a functional theme toggle button", async () => {
     const wrapper = mount(App, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
     const themeButton = wrapper.find("button");

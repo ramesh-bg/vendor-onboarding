@@ -5,9 +5,11 @@ import VendorList from "../VendorList.vue";
 import { useVendorStore } from "../../stores/vendorStore";
 
 describe("VendorList.vue", () => {
+  let pinia: ReturnType<typeof createPinia>;
+
   beforeEach(() => {
-    setActivePinia(createPinia());
-    // Prevent actual network calls during component mount
+    pinia = createPinia();
+    setActivePinia(pinia);
     const store = useVendorStore();
     store.fetchVendors = vi.fn();
   });
@@ -15,7 +17,7 @@ describe("VendorList.vue", () => {
   it("renders vendor directory title", () => {
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
     expect(wrapper.find("h2").text()).toBe("Vendor Directory");
@@ -24,7 +26,7 @@ describe("VendorList.vue", () => {
   it("shows loading state when fetching vendors", async () => {
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
 
@@ -39,7 +41,7 @@ describe("VendorList.vue", () => {
   it("shows empty state when no vendors exist", async () => {
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
 
@@ -55,7 +57,7 @@ describe("VendorList.vue", () => {
   it("displays error message when fetch fails", async () => {
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
 
@@ -71,7 +73,7 @@ describe("VendorList.vue", () => {
   it("displays paginated vendor count", async () => {
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
 
@@ -104,13 +106,12 @@ describe("VendorList.vue", () => {
   });
 
   it("renders vendor table with data", async () => {
+    const store = useVendorStore();
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
-
-    const store = useVendorStore();
     store.vendors = [
       {
         id: 1,
@@ -131,13 +132,12 @@ describe("VendorList.vue", () => {
   });
 
   it("renders multiple vendors in table rows", async () => {
+    const store = useVendorStore();
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
-
-    const store = useVendorStore();
     store.vendors = [
       {
         id: 1,
@@ -172,13 +172,12 @@ describe("VendorList.vue", () => {
   });
 
   it("displays Supplier badge correctly", async () => {
+    const store = useVendorStore();
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
-
-    const store = useVendorStore();
     store.vendors = [
       {
         id: 1,
@@ -196,13 +195,12 @@ describe("VendorList.vue", () => {
   });
 
   it("displays Partner badge correctly", async () => {
+    const store = useVendorStore();
     const wrapper = mount(VendorList, {
       global: {
-        plugins: [createPinia()],
+        plugins: [pinia],
       },
     });
-
-    const store = useVendorStore();
     store.vendors = [
       {
         id: 1,

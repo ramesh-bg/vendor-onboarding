@@ -1,4 +1,4 @@
-# Trusted Vendors Portal
+# Vendors Onboarding Portal
 
 Full-stack Vendor Onboarding application for registering and managing vendors.
 
