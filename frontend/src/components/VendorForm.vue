@@ -118,14 +118,16 @@
               touched.partner_type &&
                 getFieldError('partner_type') &&
                 styles.inputError,
-              'appearance-none'
+              'appearance-none',
             ]"
             @blur="markTouched('partner_type')"
           >
             <option value="Supplier">Supplier</option>
             <option value="Partner">Partner</option>
           </select>
-          <ArrowDownIcon class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" />
+          <ArrowDownIcon
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
+          />
         </div>
         <div :class="styles.fieldErrorSlot">
           <p
@@ -164,7 +166,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, onBeforeUnmount } from "vue";
 import { useVendorStore } from "../stores/vendorStore";
 import { useFormStyles } from "../composables/useFormStyles";
 import MailIcon from "./icons/MailIcon.vue";
@@ -203,6 +205,8 @@ const touched = reactive<Record<FormFieldKey, boolean>>({
 const success = ref(false);
 const isSubmitting = ref(false);
 const formValidationError = ref("");
+
+let timeout: ReturnType<typeof setTimeout> | null = null;
 
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -282,29 +286,27 @@ const submitForm = async () => {
 
   isSubmitting.value = true;
 
-  try {
-    const created = await vendorStore.addVendor({ ...form });
-    // Update the list locally in the component (store stays agnostic)
-    if (created) {
-      vendorStore.vendors.unshift(created);
-      if (typeof vendorStore.total === "number") {
+  vendorStore
+    .addVendor({ ...form })
+    .then((res) => {
+      if (res) {
+        vendorStore.vendors.unshift(res);
         vendorStore.total = vendorStore.total + 1;
+        success.value = true;
+        timeout = setTimeout(() => {
+          resetForm();
+          success.value = false;
+        }, 2000);
       }
-    }
-
-    success.value = true;
-
-    // Reset the form after successful submission
-    setTimeout(() => {
-      resetForm();
-      success.value = false;
-    }, 2000);
-  } catch (err) {
-    // Error is already handled in the store
-  } finally {
-    isSubmitting.value = false;
-  }
+    })
+    .finally(() => (isSubmitting.value = false));
 };
+
+onBeforeUnmount(() => {
+  if (timeout) {
+    clearTimeout(timeout);
+  }
+});
 </script>
 
 <style scoped>
@@ -322,6 +324,4 @@ const submitForm = async () => {
 .animate-slideIn {
   animation: slideIn 0.3s ease;
 }
-
-
 </style>

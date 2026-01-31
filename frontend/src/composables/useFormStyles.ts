@@ -54,15 +54,16 @@ export function useFormStyles() {
       "text-success text-sm p-md bg-success/10 border-l-4 border-success rounded-sm animate-slideIn",
 
     tableContainer:
-      "p-lg bg-surface-elevated border border-border rounded-lg shadow-md transition-all flex flex-col gap-lg",
+      "p-xl bg-surface-elevated border border-border rounded-xl shadow-lg transition-all flex flex-col gap-lg overflow-hidden",
 
     tableHeader:
-      "flex justify-between items-center pb-md border-b-2 border-primary/20 gap-md",
+      "flex justify-between items-center pb-lg mb-2 border-b-2 border-primary/30 gap-md",
 
-    tableTitle: "text-xl text-primary m-0",
+    tableTitle:
+      "text-2xl font-bold text-primary m-0 tracking-tight",
 
     vendorCount:
-      "text-sm text-muted font-medium px-md py-xs bg-surface rounded-md",
+      "text-sm text-muted font-semibold px-md py-sm bg-primary/5 border border-primary/20 rounded-lg",
 
     stateContainer:
       "flex flex-col items-center justify-center p-2xl rounded-lg min-h-[200px] gap-md",
@@ -91,31 +92,33 @@ export function useFormStyles() {
 
     emptyDescription: "text-muted text-sm",
 
-    tableWrapper: "overflow-x-auto rounded-md border border-border",
+    tableWrapper:
+      "overflow-x-auto rounded-xl border border-border bg-surface shadow-inner",
 
     table: "w-full border-collapse text-sm",
 
     tableHeadCell:
-      "px-md py-md text-left bg-surface text-text font-semibold uppercase text-xs tracking-wider border-b-2 border-border sticky top-0 z-10",
+      "px-lg py-4 text-left bg-primary/8 text-primary font-bold uppercase text-xs tracking-widest border-b-2 border-primary/30 sticky top-0 z-10 backdrop-blur-sm",
 
     tableBodyRow:
-      "border-b border-border transition-all bg-bg hover:bg-primary/8 focus:outline-2 focus:outline-offset-[-2px] focus:outline-primary",
+      "border-b border-border/80 transition-all bg-bg hover:bg-primary/5 focus:outline-2 focus:outline-offset-[-2px] focus:outline-primary",
 
-    tableBodyRowZebra: "bg-primary/3",
+    tableBodyRowZebra: "bg-primary/2",
 
-    tableCell: "px-md py-md text-text",
+    tableCell: "px-lg py-4 text-text",
 
-    tableCellName: "px-md py-md font-semibold text-primary",
+    tableCellName: "px-lg py-4 font-semibold text-primary",
 
-    tableCellEmail: "px-md py-md text-text-secondary text-xs break-words",
+    tableCellEmail: "px-lg py-4 text-text-secondary text-sm break-words",
 
-    tableCellType: "px-md py-md",
+    tableCellType: "px-lg py-4",
 
     badge:
-      "inline-block px-sm py-xs rounded-sm font-semibold text-xs uppercase tracking-widest",
+      "inline-block px-3 py-1 rounded-full font-bold text-xs uppercase tracking-widest border",
 
-    badgeSupplier: "bg-secondary/15 text-secondary",
+    badgeSupplier:
+      "bg-secondary/15 text-secondary border-secondary/30",
 
-    badgePartner: "bg-success/15 text-success",
+    badgePartner: "bg-success/15 text-success border-success/30",
   };
 }
