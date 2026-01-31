@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import sunSvg from "../../../assets/icons/sun.svg?raw";
+import sunSvg from '../../../assets/icons/sun.svg?raw';
 </script>
 
 <template>

@@ -14,12 +14,8 @@
           >? This action cannot be undone.
         </p>
         <div class="flex justify-end gap-md">
-          <button @click="emit('cancel')" :class="styles.buttonSecondary">
-            Cancel
-          </button>
-          <button @click="emit('confirm')" :class="styles.buttonDanger">
-            Delete
-          </button>
+          <button :class="styles.buttonSecondary" @click="emit('cancel')">Cancel</button>
+          <button :class="styles.buttonDanger" @click="emit('confirm')">Delete</button>
         </div>
       </div>
     </div>
@@ -27,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { useFormStyles } from "../../composables/useFormStyles";
+import { useFormStyles } from '../../composables/useFormStyles';
 
 interface Props {
   isOpen: boolean;
@@ -37,8 +33,8 @@ interface Props {
 const { isOpen, itemToConfirm } = defineProps<Props>();
 
 const emit = defineEmits<{
-  (e: "confirm"): void;
-  (e: "cancel"): void;
+  (e: 'confirm'): void;
+  (e: 'cancel'): void;
 }>();
 
 const styles = useFormStyles();

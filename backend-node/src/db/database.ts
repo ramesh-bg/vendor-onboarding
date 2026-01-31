@@ -1,20 +1,20 @@
-import sqlite3 from "sqlite3";
-import path from "path";
-import fs from "fs";
-import dotenv from "dotenv";
+import sqlite3 from 'sqlite3';
+import path from 'path';
+import fs from 'fs';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 /* ---------- paths ---------- */
-const dataDir = path.resolve(__dirname, "../../data");
+const dataDir = path.resolve(__dirname, '../../data');
 fs.mkdirSync(dataDir, { recursive: true });
 
-const dbPath = path.join(dataDir, process.env.DB_PATH || "vendors.db");
+const dbPath = path.join(dataDir, process.env.DB_PATH || 'vendors.db');
 
 /* ---------- db ---------- */
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
-    console.error("DB connection error:", err.message);
+    console.error('DB connection error:', err.message);
   } else {
     console.log(`SQLite connected → ${dbPath}`);
   }
@@ -34,22 +34,18 @@ db.serialize(() => {
   `);
 
   db.run(`CREATE INDEX IF NOT EXISTS idx_vendors_email ON vendors(email)`);
-  db.run(
-    `CREATE INDEX IF NOT EXISTS idx_vendors_created_at ON vendors(created_at)`,
-  );
+  db.run(`CREATE INDEX IF NOT EXISTS idx_vendors_created_at ON vendors(created_at)`);
 
   /* ---------- seed data ---------- */
-  db.get(
-    "SELECT COUNT(*) as count FROM vendors",
-    (err, result: { count: number }) => {
-      if (err) {
-        console.error("Error checking vendors count:", err.message);
-        return;
-      }
+  db.get('SELECT COUNT(*) as count FROM vendors', (err, result: { count: number }) => {
+    if (err) {
+      console.error('Error checking vendors count:', err.message);
+      return;
+    }
 
-      if (result.count > 0) return;
+    if (result.count > 0) return;
 
-      db.run(`
+    db.run(`
         INSERT INTO vendors (name, contact_person, email, partner_type) VALUES
         ('Acme Corp', 'John Doe', 'john.doe@acme.com', 'Supplier'),
         ('Globex Inc', 'Jane Smith', 'jane.smith@globex.com', 'Supplier'),
@@ -63,9 +59,8 @@ db.serialize(() => {
         ('Tyrell Corporation', 'Eldon Tyrell', 'eldon.tyrell@tyrell.com', 'Supplier')
       `);
 
-      console.log("Sample vendor data inserted");
-    },
-  );
+    console.log('Sample vendor data inserted');
+  });
 });
 
 export default db;

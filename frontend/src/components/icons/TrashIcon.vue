@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import trashSvg from "../../../assets/icons/trash.svg?raw";
+import trashSvg from '../../../assets/icons/trash.svg?raw';
 </script>
 
 <template>

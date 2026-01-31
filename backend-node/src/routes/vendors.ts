@@ -1,6 +1,6 @@
-import { Router, Request, Response } from "express";
-import db from "../db/database";
-import type { Vendor } from "../models/Vendor";
+import { Router, Request, Response } from 'express';
+import db from '../db/database';
+import type { Vendor } from '../models/Vendor';
 
 const router = Router();
 
@@ -9,8 +9,8 @@ const parseIntSafe = (v: any, def: number) => {
   return Number.isNaN(n) || n < 1 ? def : n;
 };
 
-router.get("/", (req: Request, res: Response) => {
-  const { page = 1, per_page = 10, name, email, sort = "latest" } = req.query;
+router.get('/', (req: Request, res: Response) => {
+  const { page = 1, per_page = 10, name, email, sort = 'latest' } = req.query;
 
   const pageVal = parseIntSafe(page, 1);
   const perPageVal = Math.min(parseIntSafe(per_page, 10), 100);
@@ -20,18 +20,17 @@ router.get("/", (req: Request, res: Response) => {
   const params: (string | number)[] = [];
 
   if (name) {
-    filters.push("name LIKE ?");
+    filters.push('name LIKE ?');
     params.push(`%${name}%`);
   }
 
   if (email) {
-    filters.push("email LIKE ?");
+    filters.push('email LIKE ?');
     params.push(`%${email}%`);
   }
 
-  const where = filters.length ? `WHERE ${filters.join(" AND ")}` : "";
-  const orderBy =
-    sort === "oldest" ? "ORDER BY created_at ASC" : "ORDER BY created_at DESC";
+  const where = filters.length ? `WHERE ${filters.join(' AND ')}` : '';
+  const orderBy = sort === 'oldest' ? 'ORDER BY created_at ASC' : 'ORDER BY created_at DESC';
 
   db.get(
     `SELECT COUNT(*) as count FROM vendors ${where}`,
@@ -54,23 +53,21 @@ router.get("/", (req: Request, res: Response) => {
               total_pages: Math.max(1, Math.ceil(countRow.count / perPageVal)),
             },
           });
-        },
+        }
       );
-    },
+    }
   );
 });
 
-router.post("/", (req: Request, res: Response) => {
+router.post('/', (req: Request, res: Response) => {
   const { name, contact_person, email, partner_type } = req.body as Vendor;
 
   if (!name || !contact_person || !email || !partner_type) {
-    return res.status(400).json({ error: "All fields are required" });
+    return res.status(400).json({ error: 'All fields are required' });
   }
 
-  if (!["Supplier", "Partner"].includes(partner_type)) {
-    return res
-      .status(400)
-      .json({ error: 'partner_type must be "Supplier" or "Partner"' });
+  if (!['Supplier', 'Partner'].includes(partner_type)) {
+    return res.status(400).json({ error: 'partner_type must be "Supplier" or "Partner"' });
   }
 
   const sql = `
@@ -80,8 +77,8 @@ router.post("/", (req: Request, res: Response) => {
 
   db.run(sql, [name, contact_person, email, partner_type], function (err) {
     if (err) {
-      if (err.message.includes("UNIQUE constraint")) {
-        return res.status(409).json({ error: "Email already exists" });
+      if (err.message.includes('UNIQUE constraint')) {
+        return res.status(409).json({ error: 'Email already exists' });
       }
       return res.status(500).json({ error: err.message });
     }
@@ -97,15 +94,14 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 /* ---------- DELETE /vendors/:id ---------- */
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete('/:id', (req: Request, res: Response) => {
   const { id } = req.params;
 
-  db.run("DELETE FROM vendors WHERE id = ?", [id], function (err) {
+  db.run('DELETE FROM vendors WHERE id = ?', [id], function (err) {
     if (err) return res.status(500).json({ error: err.message });
-    if (!this.changes)
-      return res.status(404).json({ error: "Vendor not found" });
+    if (!this.changes) return res.status(404).json({ error: 'Vendor not found' });
 
-    res.json({ message: "Vendor deleted successfully", id });
+    res.json({ message: 'Vendor deleted successfully', id });
   });
 });
 

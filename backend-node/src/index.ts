@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import vendorRoutes from "./routes/vendors";
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import vendorRoutes from './routes/vendors';
 
 // Load environment variables
 dotenv.config();
@@ -14,11 +14,11 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/vendors", vendorRoutes);
+app.use('/api/vendors', vendorRoutes);
 
 // Health check endpoint
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
 });
 
 app.listen(port, () => {

@@ -43,14 +43,14 @@ Unit tests for the VendorForm.vue component.
 
 ```typescript
 // Input validation
-it("disables submit button when form is invalid");
-it("enables submit button when all fields are valid");
+it('disables submit button when form is invalid');
+it('enables submit button when all fields are valid');
 
 // Email validation
-it("shows error message for invalid email");
+it('shows error message for invalid email');
 
 // Default values
-it("has default partner type value");
+it('has default partner type value');
 ```
 
 ---
@@ -101,18 +101,18 @@ Tests for the VendorList.vue component.
 
 ```typescript
 // States
-it("shows loading state when loading is true");
-it("shows empty state when no vendors exist");
-it("shows error state when error exists");
+it('shows loading state when loading is true');
+it('shows empty state when no vendors exist');
+it('shows error state when error exists');
 
 // Data Display
-it("renders multiple vendors in table");
-it("renders correct badge styling for Supplier");
-it("renders correct badge styling for Partner");
+it('renders multiple vendors in table');
+it('renders correct badge styling for Supplier');
+it('renders correct badge styling for Partner');
 
 // UI Elements
-it("shows loading spinner");
-it("shows empty state icon");
+it('shows loading spinner');
+it('shows empty state icon');
 ```
 
 ---
@@ -167,19 +167,15 @@ findInputByLabel(wrapper, labelText);
 ### Usage Example
 
 ```typescript
-import {
-  mountWithPinia,
-  mockVendors,
-  fillVendorForm,
-} from "../tests/test-utils";
+import { mountWithPinia, mockVendors, fillVendorForm } from '../tests/test-utils';
 
-describe("VendorForm", () => {
-  it("fills and submits form", async () => {
+describe('VendorForm', () => {
+  it('fills and submits form', async () => {
     const wrapper = mountWithPinia(VendorForm);
     await fillVendorForm(wrapper, mockVendors.single);
 
     const button = wrapper.find('button[type="submit"]');
-    expect(button.attributes("disabled")).not.toBeDefined();
+    expect(button.attributes('disabled')).not.toBeDefined();
   });
 });
 ```

@@ -1,13 +1,10 @@
 <template>
   <div :class="styles.formContainer" class="vendor-form-card z-[100]">
     <h2 :class="styles.formHeader">Add New Vendor</h2>
-    <form @submit.prevent="submitForm" :class="styles.formGroupContainer">
+    <form :class="styles.formGroupContainer" @submit.prevent="submitForm">
       <div :class="styles.formGroup">
         <label for="name" :class="styles.label"
-          >Name<span
-            v-if="!fieldConfig.name.required"
-            :class="styles.optionalLabel"
-          >
+          >Name<span v-if="!fieldConfig.name.required" :class="styles.optionalLabel">
             (optional)</span
           >:</label
         >
@@ -27,11 +24,8 @@
           />
         </div>
         <div :class="styles.fieldErrorSlot">
-          <p
-            v-if="touched.name && getFieldError('name')"
-            :class="styles.fieldError"
-          >
-            {{ getFieldError("name") }}
+          <p v-if="touched.name && getFieldError('name')" :class="styles.fieldError">
+            {{ getFieldError('name') }}
           </p>
         </div>
       </div>
@@ -48,9 +42,7 @@
             placeholder="Contact person name"
             :class="[
               styles.inputWithIcon,
-              touched.contact_person &&
-                getFieldError('contact_person') &&
-                styles.inputError,
+              touched.contact_person && getFieldError('contact_person') && styles.inputError,
             ]"
             @blur="markTouched('contact_person')"
           />
@@ -60,17 +52,14 @@
             v-if="touched.contact_person && getFieldError('contact_person')"
             :class="styles.fieldError"
           >
-            {{ getFieldError("contact_person") }}
+            {{ getFieldError('contact_person') }}
           </p>
         </div>
       </div>
 
       <div :class="styles.formGroup">
         <label for="email" :class="styles.label"
-          >Email<span
-            v-if="!fieldConfig.email.required"
-            :class="styles.optionalLabel"
-          >
+          >Email<span v-if="!fieldConfig.email.required" :class="styles.optionalLabel">
             (optional)</span
           >:</label
         >
@@ -90,11 +79,8 @@
           />
         </div>
         <div :class="styles.fieldErrorSlot">
-          <p
-            v-if="touched.email && getFieldError('email')"
-            :class="styles.fieldError"
-          >
-            {{ getFieldError("email") }}
+          <p v-if="touched.email && getFieldError('email')" :class="styles.fieldError">
+            {{ getFieldError('email') }}
           </p>
         </div>
       </div>
@@ -115,9 +101,7 @@
             :required="fieldConfig.partner_type.required"
             :class="[
               styles.selectField,
-              touched.partner_type &&
-                getFieldError('partner_type') &&
-                styles.inputError,
+              touched.partner_type && getFieldError('partner_type') && styles.inputError,
               'appearance-none',
             ]"
             @blur="markTouched('partner_type')"
@@ -134,7 +118,7 @@
             v-if="touched.partner_type && getFieldError('partner_type')"
             :class="styles.fieldError"
           >
-            {{ getFieldError("partner_type") }}
+            {{ getFieldError('partner_type') }}
           </p>
         </div>
       </div>
@@ -145,11 +129,7 @@
           :disabled="vendorStore.loadingAdd || isSubmitting || !isFormValid"
           :class="styles.buttonBase"
         >
-          {{
-            vendorStore.loadingAdd || isSubmitting
-              ? "Submitting..."
-              : "Add Vendor"
-          }}
+          {{ vendorStore.loadingAdd || isSubmitting ? 'Submitting...' : 'Add Vendor' }}
         </button>
         <div v-if="formValidationError" :class="styles.errorMessage">
           {{ formValidationError }}
@@ -157,35 +137,33 @@
         <div v-if="vendorStore.addError" :class="styles.errorMessage">
           {{ vendorStore.addError }}
         </div>
-        <div v-if="success" :class="styles.successMessage">
-          Vendor added successfully!
-        </div>
+        <div v-if="success" :class="styles.successMessage">Vendor added successfully!</div>
       </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, computed, onBeforeUnmount } from "vue";
-import { useVendorStore } from "../stores/vendorStore";
-import { useFormStyles } from "../composables/useFormStyles";
-import MailIcon from "./icons/MailIcon.vue";
-import ArrowDownIcon from "./icons/ArrowDownIcon.vue";
-import CompanyIcon from "./icons/CompanyIcon.vue";
-import UserIcon from "./icons/UserIcon.vue";
-import type { Vendor } from "../types/Vendor";
+import { reactive, ref, computed, onBeforeUnmount } from 'vue';
+import { useVendorStore } from '../stores/vendorStore';
+import { useFormStyles } from '../composables/useFormStyles';
+import MailIcon from './icons/MailIcon.vue';
+import ArrowDownIcon from './icons/ArrowDownIcon.vue';
+import CompanyIcon from './icons/CompanyIcon.vue';
+import UserIcon from './icons/UserIcon.vue';
+import type { Vendor } from '../types/Vendor';
 
 const vendorStore = useVendorStore();
 const styles = useFormStyles();
 
 const form = reactive<Vendor>({
-  name: "",
-  contact_person: "",
-  email: "",
-  partner_type: "Supplier",
+  name: '',
+  contact_person: '',
+  email: '',
+  partner_type: 'Supplier',
 });
 
-type FormFieldKey = "name" | "contact_person" | "email" | "partner_type";
+type FormFieldKey = 'name' | 'contact_person' | 'email' | 'partner_type';
 
 // Single source of truth for required/optional (like Angular validators)
 const fieldConfig: Record<FormFieldKey, { required: boolean }> = {
@@ -204,7 +182,7 @@ const touched = reactive<Record<FormFieldKey, boolean>>({
 
 const success = ref(false);
 const isSubmitting = ref(false);
-const formValidationError = ref("");
+const formValidationError = ref('');
 
 let timeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -220,32 +198,29 @@ const markTouched = (field: FormFieldKey) => {
 // Per-field error from config (reactive to form + fieldConfig)
 function getFieldError(field: FormFieldKey): string {
   switch (field) {
-    case "name":
-      if (fieldConfig.name.required && !form.name.trim())
-        return "Name is required.";
-      return "";
-    case "contact_person":
+    case 'name':
+      if (fieldConfig.name.required && !form.name.trim()) return 'Name is required.';
+      return '';
+    case 'contact_person':
       if (fieldConfig.contact_person.required && !form.contact_person.trim())
-        return "Contact person is required.";
-      return "";
-    case "email":
-      if (fieldConfig.email.required && !form.email.trim())
-        return "Email is required.";
+        return 'Contact person is required.';
+      return '';
+    case 'email':
+      if (fieldConfig.email.required && !form.email.trim()) return 'Email is required.';
       if (form.email.trim() && !isValidEmail(form.email))
-        return "Please enter a valid email address.";
-      return "";
-    case "partner_type":
+        return 'Please enter a valid email address.';
+      return '';
+    case 'partner_type':
       if (fieldConfig.partner_type.required && !form.partner_type)
-        return "Partner type is required.";
-      return "";
+        return 'Partner type is required.';
+      return '';
   }
 }
 
 // Form valid when all required fields pass + email format when present
 const isFormValid = computed(() => {
   if (fieldConfig.name.required && !form.name.trim()) return false;
-  if (fieldConfig.contact_person.required && !form.contact_person.trim())
-    return false;
+  if (fieldConfig.contact_person.required && !form.contact_person.trim()) return false;
   if (fieldConfig.email.required && !form.email.trim()) return false;
   if (form.email.trim() && !isValidEmail(form.email)) return false;
   if (fieldConfig.partner_type.required && !form.partner_type) return false;
@@ -253,11 +228,11 @@ const isFormValid = computed(() => {
 });
 
 const resetForm = () => {
-  form.name = "";
-  form.contact_person = "";
-  form.email = "";
-  form.partner_type = "Supplier";
-  formValidationError.value = "";
+  form.name = '';
+  form.contact_person = '';
+  form.email = '';
+  form.partner_type = 'Supplier';
+  formValidationError.value = '';
   touched.name = false;
   touched.contact_person = false;
   touched.email = false;
@@ -270,7 +245,7 @@ const submitForm = async () => {
     return;
   }
 
-  formValidationError.value = "";
+  formValidationError.value = '';
   success.value = false;
 
   // Mark all fields touched so per-field errors show on submit

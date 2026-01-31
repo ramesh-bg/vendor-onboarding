@@ -1,4 +1,4 @@
-import type { Vendor } from "../types/Vendor";
+import type { Vendor } from '../types/Vendor';
 
 export interface PaginatedResponse {
   data: Vendor[];
@@ -10,8 +10,7 @@ export interface PaginatedResponse {
   };
 }
 
-const API_URL =
-  import.meta.env.VITE_API_URL_NODE || "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_API_URL_NODE || 'http://localhost:3000/api';
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, options);
@@ -30,12 +29,7 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 }
 
 export const VendorService = {
-  getVendors(
-    page = 1,
-    per_page = 10,
-    searchType?: string,
-    searchQuery?: string,
-  ) {
+  getVendors(page = 1, per_page = 10, searchType?: string, searchQuery?: string) {
     const params = new URLSearchParams({
       page: String(page),
       per_page: String(per_page),
@@ -45,21 +39,19 @@ export const VendorService = {
       params.append(searchType, searchQuery);
     }
 
-    return request<PaginatedResponse>(
-      `${API_URL}/vendors?${params.toString()}`,
-    );
+    return request<PaginatedResponse>(`${API_URL}/vendors?${params.toString()}`);
   },
 
   deleteVendor(id: number) {
     return request<void>(`${API_URL}/vendors/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
   },
 
   createVendor(vendor: Vendor) {
     return request<Vendor>(`${API_URL}/vendors`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(vendor),
     });
   },

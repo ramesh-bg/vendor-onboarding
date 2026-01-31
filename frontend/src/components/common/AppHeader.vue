@@ -1,17 +1,15 @@
 <template>
-  <header
-    class="border-b border-primary shadow-sm sticky top-0 z-[200] header-bg"
-  >
+  <header class="border-b border-primary shadow-sm sticky top-0 z-[200] header-bg">
     <div class="flex justify-between px-8 py-4">
       <a href="/" class="flex items-center gap-4" aria-label="Home">
-        <img
-          src="/assets/icons/maersk.svg"
-          alt="Maersk Logo"
-          class="w-8 h-8 md:w-7 md:h-7"
-        />
+        <img src="/assets/icons/maersk.svg" alt="Maersk Logo" class="w-8 h-8 md:w-7 md:h-7" />
         <div>
-          <div class="text-base md:text-xl font-extrabold text-text tracking-tight leading-tight">Maersk</div>
-          <div class="text-[0.6rem] md:text-xs font-bold text-primary uppercase tracking-widest">Vendor Portal</div>
+          <div class="text-base md:text-xl font-extrabold text-text tracking-tight leading-tight">
+            Maersk
+          </div>
+          <div class="text-[0.6rem] md:text-xs font-bold text-primary uppercase tracking-widest">
+            Vendor Portal
+          </div>
         </div>
       </a>
       <div class="flex-shrink-0 flex items-center gap-sm">
@@ -33,9 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { useTheme } from "../../composables/useTheme";
-import SunIcon from "../icons/SunIcon.vue";
-import MoonIcon from "../icons/MoonIcon.vue";
+import { useTheme } from '../../composables/useTheme';
+import SunIcon from '../icons/SunIcon.vue';
+import MoonIcon from '../icons/MoonIcon.vue';
 
 const { theme, toggleTheme } = useTheme();
 </script>
@@ -97,11 +95,11 @@ const { theme, toggleTheme } = useTheme();
   opacity: 0;
 }
 
-[data-theme="dark"] .theme-icon-sun {
+[data-theme='dark'] .theme-icon-sun {
   opacity: 1;
 }
 
-[data-theme="light"] .theme-icon-moon {
+[data-theme='light'] .theme-icon-moon {
   opacity: 1;
 }
 

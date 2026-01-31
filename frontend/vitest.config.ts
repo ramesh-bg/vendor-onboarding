@@ -1,5 +1,4 @@
 import { defineConfig } from "vitest/config";
-import vue from "@vitejs/plugin-vue";
 import { fileURLToPath } from "node:url";
 import { mergeConfig } from "vite";
 import viteConfig from "./vite.config";

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import moonSvg from "../../../assets/icons/moon.svg?raw";
+import moonSvg from '../../../assets/icons/moon.svg?raw';
 </script>
 
 <template>

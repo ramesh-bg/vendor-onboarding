@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import VendorForm from "./components/VendorForm.vue";
-import VendorList from "./components/VendorList.vue";
-import AppHeader from "./components/common/AppHeader.vue";
+import VendorForm from './components/VendorForm.vue';
+import VendorList from './components/VendorList.vue';
+import AppHeader from './components/common/AppHeader.vue';
 </script>
 
 <template>

@@ -1,13 +1,13 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { VendorService } from "../services/VendorService";
-import type { Vendor } from "../types/Vendor";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import { VendorService } from '../services/VendorService';
+import type { Vendor } from '../types/Vendor';
 
 function extractError(err: any, fallback: string): string {
   return err?.message || err?.body?.error || err?.body?.message || fallback;
 }
 
-export const useVendorStore = defineStore("vendor", () => {
+export const useVendorStore = defineStore('vendor', () => {
   const vendors = ref<Vendor[]>([]);
 
   const page = ref(1);
@@ -15,8 +15,8 @@ export const useVendorStore = defineStore("vendor", () => {
   const total = ref(0);
   const totalPages = ref(0);
 
-  const searchType = ref("name");
-  const searchQuery = ref("");
+  const searchType = ref('name');
+  const searchQuery = ref('');
 
   const loadingFetch = ref(false);
   const loadingAdd = ref(false);
@@ -33,18 +33,13 @@ export const useVendorStore = defineStore("vendor", () => {
   async function fetchVendors(
     pageNum = 1,
     append = false,
-    search = { type: searchType.value, query: searchQuery.value },
+    search = { type: searchType.value, query: searchQuery.value }
   ) {
     loadingFetch.value = true;
     fetchError.value = null;
 
     try {
-      const res = await VendorService.getVendors(
-        pageNum,
-        perPage.value,
-        search.type,
-        search.query,
-      );
+      const res = await VendorService.getVendors(pageNum, perPage.value, search.type, search.query);
 
       const list = res.data;
       vendors.value = append ? [...vendors.value, ...list] : list;
@@ -53,10 +48,7 @@ export const useVendorStore = defineStore("vendor", () => {
       total.value = res.meta.total;
       totalPages.value = res.meta.total_pages;
     } catch (err) {
-      fetchError.value = extractError(
-        err,
-        "Failed to load vendors. Please try again.",
-      );
+      fetchError.value = extractError(err, 'Failed to load vendors. Please try again.');
       throw new Error(fetchError.value);
     } finally {
       loadingFetch.value = false;
@@ -87,10 +79,7 @@ export const useVendorStore = defineStore("vendor", () => {
     try {
       return await VendorService.createVendor(vendor);
     } catch (err) {
-      const message = extractError(
-        err,
-        "Failed to add vendor. Please try again.",
-      );
+      const message = extractError(err, 'Failed to add vendor. Please try again.');
 
       addError.value = message;
       throw new Error(message);
@@ -108,10 +97,7 @@ export const useVendorStore = defineStore("vendor", () => {
       vendors.value = vendors.value.filter((v) => v.id !== id);
       total.value = Math.max(0, total.value - 1);
     } catch (err) {
-      const message = extractError(
-        err,
-        "Failed to delete vendor. Please try again.",
-      );
+      const message = extractError(err, 'Failed to delete vendor. Please try again.');
 
       deleteError.value = message;
       throw new Error(message);

@@ -11,17 +11,11 @@
             <p class="header-subtitle">Search and manage your vendors</p>
           </div>
         </div>
-        <div
-          v-if="vendorStore.vendors.length > 0"
-          class="header-count"
-          role="status"
-        >
+        <div v-if="vendorStore.vendors.length > 0" class="header-count" role="status">
           <span class="count-value">{{ vendorStore.vendors.length }}</span>
           <span class="count-sep">/</span>
           <span class="count-total">{{ vendorStore.total }}</span>
-          <span class="count-label"
-            >vendor{{ vendorStore.total !== 1 ? "s" : "" }}</span
-          >
+          <span class="count-label">vendor{{ vendorStore.total !== 1 ? 's' : '' }}</span>
         </div>
       </div>
 
@@ -43,24 +37,19 @@
             v-model="searchQuery"
             type="text"
             class="search-input"
-            :placeholder="`Search by ${
-              searchType === 'email' ? 'email' : 'company name'
-            }...`"
+            :placeholder="`Search by ${searchType === 'email' ? 'email' : 'company name'}...`"
             aria-label="Search vendors"
             @input="handleSearch"
           />
-          <div
-            v-if="vendorStore.loadingFetch && searchQuery"
-            class="search-spinner"
-          >
-            <div class="spinner-small"></div>
+          <div v-if="vendorStore.loadingFetch && searchQuery" class="search-spinner">
+            <div class="spinner-small" />
           </div>
           <button
             v-if="searchQuery && !vendorStore.loadingFetch"
             type="button"
-            @click="clearSearch"
             class="clear-button"
             aria-label="Clear search"
+            @click="clearSearch"
           >
             ✕
           </button>
@@ -74,7 +63,7 @@
       :class="styles.loadingState"
       role="status"
     >
-      <div :class="styles.spinner"></div>
+      <div :class="styles.spinner" />
       <p class="text-primary font-medium">Loading vendors...</p>
     </div>
 
@@ -109,21 +98,14 @@
           <tr v-if="vendorStore.vendors.length === 0" role="row">
             <td :colspan="5" class="no-results-message">
               <p>
-                {{
-                  searchQuery
-                    ? "No vendors found with these search filters"
-                    : "No vendors"
-                }}
+                {{ searchQuery ? 'No vendors found with these search filters' : 'No vendors' }}
               </p>
             </td>
           </tr>
           <tr
             v-for="(vendor, index) in vendorStore.vendors"
             :key="vendor.id"
-            :class="[
-              styles.tableBodyRow,
-              { [styles.tableBodyRowZebra]: index % 2 === 0 },
-            ]"
+            :class="[styles.tableBodyRow, { [styles.tableBodyRowZebra]: index % 2 === 0 }]"
             role="row"
             tabindex="0"
             class="vendor-row"
@@ -142,9 +124,7 @@
                 >
                   {{ getInitials(vendor.name) }}
                 </div>
-                <span class="font-semibold text-primary text-base">{{
-                  vendor.name
-                }}</span>
+                <span class="font-semibold text-primary text-base">{{ vendor.name }}</span>
               </div>
             </td>
             <td data-label="Contact Person" :class="styles.tableCell">
@@ -167,10 +147,10 @@
             </td>
             <td data-label="Action" :class="styles.tableCell">
               <a
-                @click.stop="showDeleteConfirmation(vendor)"
                 :disabled="vendorStore.loadingDelete === vendor.id"
                 aria-label="Delete vendor"
                 class="cursor-pointer text-danger"
+                @click.stop="showDeleteConfirmation(vendor)"
               >
                 <TrashIcon class="w-5 h-5" />
               </a>
@@ -187,32 +167,28 @@
           >
             <td data-label="Company" :class="styles.tableCellName">
               <div class="flex items-center gap-3">
-                <div
-                  class="skeleton w-10 h-10 rounded-full flex-shrink-0"
-                ></div>
-                <div class="skeleton skeleton-text flex-1 max-w-[120px]"></div>
+                <div class="skeleton w-10 h-10 rounded-full flex-shrink-0" />
+                <div class="skeleton skeleton-text flex-1 max-w-[120px]" />
               </div>
             </td>
             <td data-label="Contact Person" :class="styles.tableCell">
-              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text" />
             </td>
             <td data-label="Email" :class="styles.tableCellEmail">
-              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text" />
             </td>
             <td data-label="Type" :class="styles.tableCellType">
-              <div class="skeleton skeleton-badge"></div>
+              <div class="skeleton skeleton-badge" />
             </td>
             <td data-label="Actions" :class="styles.tableCell">
-              <div class="skeleton w-8 h-8 rounded-md"></div>
+              <div class="skeleton w-8 h-8 rounded-md" />
             </td>
           </tr>
 
           <!-- No More Vendors Message -->
           <tr
             v-show="
-              !vendorStore.hasMore &&
-              !vendorStore.loadingFetch &&
-              vendorStore.vendors.length > 0
+              !vendorStore.hasMore && !vendorStore.loadingFetch && vendorStore.vendors.length > 0
             "
             class="!border-none my-0 p-0"
           >
@@ -223,7 +199,7 @@
           <!-- Sentinel element for Intersection Observer -->
           <tr class="!border-none my-0 p-0 !bg-transparent">
             <td :colspan="5" class="!bg-transparent">
-              <div ref="sentinel" class="sentinel"></div>
+              <div ref="sentinel" class="sentinel" />
             </td>
           </tr>
         </tbody>
@@ -240,20 +216,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, watch } from "vue";
-import { useVendorStore } from "../stores/vendorStore";
-import { useFormStyles } from "../composables/useFormStyles";
-import ErrorIcon from "./icons/ErrorIcon.vue";
-import TrashIcon from "./icons/TrashIcon.vue";
-import CompanyIcon from "./icons/CompanyIcon.vue";
-import ConfirmationDialog from "./common/ConfirmationDialog.vue";
-import type { Vendor } from "../types/Vendor";
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
+import { useVendorStore } from '../stores/vendorStore';
+import { useFormStyles } from '../composables/useFormStyles';
+import ErrorIcon from './icons/ErrorIcon.vue';
+import TrashIcon from './icons/TrashIcon.vue';
+import CompanyIcon from './icons/CompanyIcon.vue';
+import ConfirmationDialog from './common/ConfirmationDialog.vue';
+import type { Vendor } from '../types/Vendor';
 
 const vendorStore = useVendorStore();
 const styles = useFormStyles();
 const sentinel = ref<HTMLElement | null>(null);
-const searchType = ref<string>("name");
-const searchQuery = ref<string>("");
+const searchType = ref<string>('name');
+const searchQuery = ref<string>('');
 let observer: IntersectionObserver | null = null;
 
 // Confirmation Dialog State
@@ -284,13 +260,13 @@ const handleSearch = () => {
 };
 
 const clearSearch = () => {
-  searchQuery.value = "";
-  vendorStore.debounceSearch(searchType.value, "");
+  searchQuery.value = '';
+  vendorStore.debounceSearch(searchType.value, '');
 };
 
 /** Get 2-letter initials from company name, e.g. "Acme Corp" → "AC" */
 const getInitials = (name: string): string => {
-  if (!name?.trim()) return "??";
+  if (!name?.trim()) return '??';
   const words = name.trim().split(/\s+/).filter(Boolean);
   if (words.length >= 2) {
     return (words[0][0] + words[1][0]).toUpperCase();
@@ -301,8 +277,7 @@ const getInitials = (name: string): string => {
 /** Generate a stable hue (0–360) from string for avatar background */
 const getAvatarColor = (name: string): string => {
   let hash = 0;
-  for (let i = 0; i < name.length; i++)
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
   const hue = Math.abs(hash % 360);
   return `hsl(${hue}, 55%, 42%)`;
 };
@@ -318,20 +293,16 @@ const initializeObserver = () => {
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (
-          entry.isIntersecting &&
-          vendorStore.hasMore &&
-          !vendorStore.loadingFetch
-        ) {
+        if (entry.isIntersecting && vendorStore.hasMore && !vendorStore.loadingFetch) {
           vendorStore.loadMore();
         }
       });
     },
     {
       root: null,
-      rootMargin: "100px",
+      rootMargin: '100px',
       threshold: 0.1,
-    },
+    }
   );
 
   observer.observe(sentinel.value);
@@ -348,7 +319,7 @@ watch(
     if (newSentinel) {
       initializeObserver();
     }
-  },
+  }
 );
 
 onBeforeUnmount(() => {
@@ -442,11 +413,7 @@ onBeforeUnmount(() => {
   gap: var(--space-lg);
   padding-bottom: var(--space-lg);
   border-bottom: 2px solid rgb(var(--color-primary) / 0.25);
-  background: linear-gradient(
-    135deg,
-    rgb(var(--color-primary) / 0.04) 0%,
-    transparent 50%
-  );
+  background: linear-gradient(135deg, rgb(var(--color-primary) / 0.04) 0%, transparent 50%);
   margin: calc(var(--space-xl) * -1) calc(var(--space-xl) * -1) 0;
   padding: var(--space-xl);
   padding-bottom: var(--space-lg);
@@ -727,11 +694,7 @@ onBeforeUnmount(() => {
     padding-left: var(--space-md);
     text-align: center;
     border-bottom: 2px solid rgb(var(--color-border));
-    background: linear-gradient(
-      to bottom,
-      rgb(var(--color-primary) / 0.06),
-      transparent
-    );
+    background: linear-gradient(to bottom, rgb(var(--color-primary) / 0.06), transparent);
     border-bottom: 1px solid rgb(var(--color-border) / 0.5);
   }
 
