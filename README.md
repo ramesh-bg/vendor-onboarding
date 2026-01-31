@@ -1,118 +1,173 @@
-# 01-fullstack-vendor-onboarding
-# Trusted Vendors Portal – Full-Stack Assignment
+# Trusted Vendors Portal
 
-## Objective
-Welcome to your application assessment assignment. This is a chance for you to show us your coding and problem solving skills.
-You are applying for a fullstack position so this assignment requires you to solve both frontend and backend challenges.
+Full-stack Vendor Onboarding application for registering and managing vendors.
 
-Nobody expects anyone to know everything so if a particular assignment is outside of your realm of experience, 
-you may either skip it or propose a solution aligned with your experience.. 
+## Project overview
 
-In this repository, you'll find a basic demo implementation of the **Trusted Vendor Portal** application. 
-Your task is to enhance and deploy this application by completing specific requirements listed below.
+**Vendors Portal** lets users register vendors (name, contact person, email, partner type) and view or delete them. The app consists of:
 
-The system currently allows users to:
-- Register a vendor (name, contact person, email, partner type [Supplier/Partner])
-- View a list of registered vendors
+- **Frontend** – Vue 3 + TypeScript + Vite, responsive layout, design tokens, light/dark theme
+- **Backend** – Node.js (TypeScript) API with SQLite.
+
+**Tech stack:** Vue 3, Vite, Pinia, Tailwind CSS, Node.js, Express, SQLite
 
 ---
-## Vendor Object Example
-    {
-      "id": "1",
-      "name": "Acme Freight",
-      "contact_person": "John Doe",
-      "email": "john.doe@acme.com",
-      "partner_type": "Supplier" 
-    }
 
-## Existing Implementation
+## Quick start (local)
 
-The repository contains:
-- A Vue.js frontend application
-- Two backend implementations (choose one):
-  - Java (Spring Boot)
-  - Node.js (TypeScript)
+### Backend (Node.js)
 
-## Available Backends
-You may choose which backend implementation to work with:
+```bash
+cd backend-node
+npm install
+npm run dev
+```
 
-### Java (Spring Boot)
-- Located in the `backend-java` directory
-- Uses H2 in-memory database
-- Includes basic create and list operations
+API: http://localhost:3000
 
-### Node.js (TypeScript)
-- Located in the `backend-node` directory 
-- Uses SQLite database
-- Includes basic create and list operations
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+App: http://localhost:5173 (Vite default). Configure backend in `frontend/src/services/VendorService.ts` (Node: port 3000).
+
 ---
-## Your Tasks
-### 1. Frontend UI Polish
-- Refresh the `frontend` layout to highlight your CSS skills. Arrange the form and vendor list in a responsive layout that presents as a single column on mobile and a tidy multi-column layout on desktop using modern CSS (flexbox and/or grid).
-- Introduce a lightweight design system by defining CSS variables (colours, spacing, typography) in `src/style.css` and apply them across components.
-- Enhance the vendor list with hover/focus states, zebra striping, and an accessible empty state.
-- Add a small visual flourish such as a light/dark theme toggle (or similar motif) handled with CSS-first techniques.
-- Document the layout approach, design tokens, breakpoints, and accessibility considerations in this README
+
+## Docker Compose
+
+Run the full stack (frontend + Node backend) in containers.
+
+**Prerequisites:** Docker and Docker Compose installed.
+
+1. From the **repository root**:
+
+   ```bash
+   docker compose build
+   ```
+
+2. Start the services:
+
+   ```bash
+   docker compose up -d
+   ```
+
+3. Access:
+   - **Frontend:** http://localhost:4200
+   - **Backend API:** http://localhost:3000
+
+4. Stop:
+
+   ```bash
+   docker compose down
+   ```
+
+**Services:**
+
+| Service  | Build context    | Port    | Description     |
+| -------- | ---------------- | ------- | --------------- |
+| backend  | `./backend-node` | 3000    | Node.js API     |
+| frontend | `./frontend`     | 4200→80 | Vue app (nginx) |
+
+Frontend is built with production API base URL targeting the backend service; for custom hosts or ports, adjust the frontend config or use env at build time.
+
+---
+
+## Repository structure
+
+```
+├── frontend/          # Vue 3 + Vite app
+├── backend-node/      # Node.js (TypeScript) API – SQLite
+├── docker-compose.yml # Frontend + Node backend
+└── README.md
+```
+
+See each app’s README for details (run scripts, tests, Docker-only build, API docs).
+
+---
+
+## Implementation notes
+
+### 1. Frontend UI polish
+
+**Layout & responsiveness**
+
+- Mobile-first responsive layout using CSS Grid and Flexbox.
+- Single-column layout on mobile, multi-column layout on desktop.
+- Breakpoints defined for comfortable spacing and readability across screen sizes.
+
+**Lightweight design system**
+
+- CSS variables in `frontend/src/style.css`:
+  - **Colors:** primary, secondary, background, text, border
+  - **Spacing:** consistent scale (xs → xl)
+  - **Typography:** base font, heading scale, line-height
+- Tokens reused across components for consistency and maintainability.
+
+**Vendor list enhancements**
+
+- Hover and focus states for interactivity
+- Zebra striping for scanability
+- Accessible empty state when no vendors are present
+
+**Visual flourish**
+
+- Light/dark theme toggle using a CSS-first approach (CSS variables + `data-theme` on `<html>`).
+- Theme switching is fast, accessible, and does not rely on heavy JS logic.
+
+**Accessibility**
+
+- Focus states for keyboard navigation
+- Sufficient color contrast in both themes
+- Semantic HTML and ARIA-friendly patterns
 
 ### 2. Delete vendor
-- Implement a delete functionality to allow users to remove vendor entries from the system
-- Include a confirmation dialog before deletion to prevent accidental removal.
-- Update both frontend and your chosen backend to support this feature
 
-### 3. Fix the UI bug
-- Currently, clicking the "Add" button multiple times before the form resets can result in duplicate vendor entries.
-- Prevent this behavior to improve the form UX
+- Delete functionality to remove vendors from the system.
+- Confirmation dialog before deletion to prevent accidental removal.
+- Backend API supports vendor deletion (`DELETE /api/vendors/:id`).
+- Frontend state updates immediately after successful deletion so the UI stays in sync.
 
-### 4. Unique Emails
-- Ensure that vendor emails are unique across the system. If a user tries to register a vendor with a duplicate email, they should be informed of the conflict. 
-  Think about where this logic should live and how the constraint is best enforced (frontend, backend, data storage or all) and justify your approach
-- Document your reasoning
+### 3. UI bug fix – duplicate add
 
-### 5. Containerization & Deployment (Optional)
-At maerks we host most of our backend services using pods and k8. If you have experience or find the challenge interesting, give this assignment a go.
+**Issue:** Clicking "Add" multiple times before the form reset could create API requests in parallel.
 
-Choose one of the following deployment approaches:
+**Fix:**
 
-#### Option A: Docker Compose
-- Containerize your chosen backend using Docker
-- Create a Docker Compose configuration to run the entire system (frontend + backend)
-- Include clear instructions to build and start the application
+- Submit button disabled while the request is in progress (`loadingAdd` or `isSubmitting`).
+- Guard in `submitForm` to prevent multiple submissions.
+- Form resets only after a successful backend response.
 
-#### Option B (Advanced): Kubernetes/Minikube Deployment
-- Create Kubernetes manifests (YAML files) for both frontend and your chosen backend
-- Ensure services can discover and communicate (e.g., using `ClusterIP`)
-- Use **Minikube** to test locally
-- Provide clear documentation or scripts to:
-  - Build and push Docker images to Minikube's Docker daemon
-  - Apply Kubernetes configs to start the app
+### 4. Unique emails
 
-You're welcome to make UX improvements or add minor enhancements, as long as the core requirements are clearly addressed.
+**Implementation**
 
----
+- Email uniqueness enforced at the database level with a `UNIQUE` constraint on `vendors.email`.
 
-## Evaluation Criteria
-- **Code clarity & organisation** – Is the code readable, modular, testable and well-structured?
-- **Testing** - How did you use testing to support your development efforts
-- **Full-stack ownership** – Can you deliver a cohesive, working system with the required enhancements?
-- **Pragmatism** – Did you make thoughtful decisions and sensible trade-offs?
-- **DevOps awareness** – Is the system easy to build, run, and maintain?
-- **Deployment quality** – If completed, is your containerization strategy practical, reproducible, and well-documented?"
+**Reasoning**
+
+- Email uniqueness is enforced at the database level to guarantee data integrity and prevent race conditions or duplicate records, even under concurrent requests. In addition, a frontend UX enhancement can be added where email uniqueness is checked on input blur (or keypress debounce) via a dedicated API, allowing users to receive early feedback if the email is already registered.
+
+### 5. Containerization & deployment
+
+**Docker & Docker Compose**
+
+- Backend and frontend are containerized with Dockerfiles in `backend-node/` and `frontend/`.
+- Docker Compose runs the full stack (frontend + Node backend) from the repository root.
+- Enables straightforward local setup and aligns with typical deployment patterns.
+
+See [Docker Compose](#docker-compose) above for build and run steps.
 
 ---
 
-## Submission Instructions
+### Additional Features
 
-1. **Copy** this repository into your own GitHub account - do not fork or create a branch in this repository
-2. Create a branch and complete the assigning in that branch.
-4. **Documentation**
-    1. Ensure your repository includes setup instructions and an updated README.md.
-    2. Provide a short description of your approach to solving each task
-    3. Highlight any assumptions, trade-offs, or challenges encountered during development.
-5. In your readme.md file, also answer the following questions:
-    1. What do I love most about being a software engineer.
-    2. What is most important to me when it comes to working in a team
-    3. What is the worst part of being a software engineer.
-5. Create a pull request to the main branch and share the link to the pull request with us.
+- **Unit Testing:** Implemented comprehensive unit tests covering major functional test cases to ensure robust code quality and reliability.
+- **Search Vendor:** Developed a search functionality for vendors by both Company Name and Email on the frontend, with corresponding backend API support.
+- **Infinite Scroll Pagination:** Frontend implements infinite scroll for the vendor list, efficiently loading more vendors as the user scrolls, ideal for large datasets.
+- **Default Sorting:** Backend sorts vendors by creation date in descending order (most recently created first) by default.
+
 ---
-
-We're excited to see how you approach these tasks — feel free to get creative, make reasonable trade-offs, and show us how you think as an engineer. We're particularly interested in your understanding of full-stack development and DevOps practices.

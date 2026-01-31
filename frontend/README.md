@@ -50,6 +50,27 @@ This is the frontend application for the Vendor Onboarding portal built with Vue
    yarn preview
    ```
 
+## Docker
+
+**Prerequisites:** Docker installed.
+
+1. From the project root, navigate to the frontend directory:
+
+   ```
+   cd frontend
+   ```
+
+2. Build the Docker image:
+
+   ```
+   docker build -t vendor-onboarding-frontend .
+   ```
+
+3. Run the container (app on port 4200):
+   ```
+   docker run -p 4200:80 vendor-onboarding-frontend
+   ```
+
 ## Changing the Backend
 
 The application can work with either the Java or Node.js backend. To change which backend is used:

@@ -10,24 +10,31 @@ This is the Node.js TypeScript implementation of the Vendor Onboarding backend A
 ## How to Run
 
 1. Navigate to the backend-node directory:
+
    ```
    cd backend-node
    ```
 
 2. Install dependencies:
+
    ```
    npm install
    ```
+
    or with yarn:
+
    ```
    yarn install
    ```
 
 3. Run the development server (with auto-reload):
+
    ```
    npm run dev
    ```
+
    or with yarn:
+
    ```
    yarn dev
    ```
@@ -43,12 +50,26 @@ This is the Node.js TypeScript implementation of the Vendor Onboarding backend A
    yarn start
    ```
 
-## API Endpoints
+## Docker
 
-The server runs on port 3000 by default. The following endpoints are available:
+**Prerequisites:** Docker installed.
 
-- GET `/api/vendors` - Get all vendors
-- POST `/api/vendors` - Create a new vendor
+1. From the project root, navigate to the backend-node directory:
+
+   ```
+   cd backend-node
+   ```
+
+2. Build the Docker image:
+
+   ```
+   docker build -t vendor-onboarding-backend-node .
+   ```
+
+3. Run the container (API on port 3000):
+   ```
+   docker run -p 3000:3000 vendor-onboarding-backend-node
+   ```
 
 ## Database
 
