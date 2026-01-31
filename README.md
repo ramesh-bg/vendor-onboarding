@@ -166,12 +166,10 @@ See [Docker Compose](#docker-compose) above for build and run steps.
 ## Previews
 
 Experience the Vendors Onboarding Portal in action:
-
-| Preview                                  | Description                                   |
-| ---------------------------------------- | --------------------------------------------- |
-| ![Preview One](./previews/one.gif)       | Vendor registration and form submission flow  |
-| ![Preview Two](./previews/two.gif)       | Vendor form duplicate email validation check  |
-| ![Mobile Preview](./previews/mobile.gif) | Mobile-responsive vendor management interface |
+![Preview One](./previews/1.png)
+![Preview Two](./previews/2.png)
+![Preview Three](./previews/3.png)
+![Preview Four](./previews/4.png)
 
 ---
 
