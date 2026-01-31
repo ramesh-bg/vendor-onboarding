@@ -51,12 +51,7 @@ db.serialize(() => {
         ('Globex Inc', 'Jane Smith', 'jane.smith@globex.com', 'Supplier'),
         ('Initech LLC', 'Michael Johnson', 'michael.johnson@initech.com', 'Partner'),
         ('Umbrella Corp', 'Sarah Williams', 'sarah.williams@umbrella.com', 'Partner'),
-        ('Stark Industries', 'Tony Stark', 'tony.stark@starkindustries.com', 'Supplier'),
-        ('Wayne Enterprises', 'Bruce Wayne', 'bruce.wayne@wayneenterprises.com', 'Partner'),
-        ('Wonka Industries', 'Willy Wonka', 'willy.wonka@wonka.com', 'Supplier'),
-        ('Hooli', 'Gavin Belson', 'gavin.belson@hooli.com', 'Supplier'),
-        ('Soylent Corp', 'Frank Thorn', 'frank.thorn@soylent.com', 'Partner'),
-        ('Tyrell Corporation', 'Eldon Tyrell', 'eldon.tyrell@tyrell.com', 'Supplier')
+        ('Stark Industries', 'Tony Stark', 'tony.stark@starkindustries.com', 'Supplier');
       `);
 
     console.log('Sample vendor data inserted');

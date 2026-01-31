@@ -1,7 +1,7 @@
 {
   "name": "backend-node",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "prepare": "husky install"
+    "prepare": "husky install || true"
   },
   "keywords": [],
   "author": "",

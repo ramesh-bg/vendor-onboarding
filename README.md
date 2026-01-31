@@ -163,11 +163,38 @@ See [Docker Compose](#docker-compose) above for build and run steps.
 
 ---
 
+## Previews
+
+Experience the Vendors Onboarding Portal in action:
+
+| Preview                                  | Description                                   |
+| ---------------------------------------- | --------------------------------------------- |
+| ![Preview One](./previews/one.gif)       | Vendor registration and form submission flow  |
+| ![Preview Two](./previews/two.gif)       | Vendor form duplicate email validation check  |
+| ![Mobile Preview](./previews/mobile.gif) | Mobile-responsive vendor management interface |
+
+---
+
 ### Additional Features
 
 - **Unit Testing:** Implemented comprehensive unit tests covering major functional test cases to ensure robust code quality and reliability.
 - **Search Vendor:** Developed a search functionality for vendors by both Company Name and Email on the frontend, with corresponding backend API support.
 - **Infinite Scroll Pagination:** Frontend implements infinite scroll for the vendor list, efficiently loading more vendors as the user scrolls, ideal for large datasets.
 - **Default Sorting:** Backend sorts vendors by creation date in descending order (most recently created first) by default.
+- **ESLint:** Configured for both backend and frontend to maintain consistent code quality and catch potential errors. Run with `npm run lint`.
+- **Prettier:** Auto-formatting tool to ensure consistent code style across the project. Format with `npm run format`.
+- **Husky:** Git hooks integration to enforce code quality checks before commits. Pre-commit hooks automatically run linting and formatting checks before each commit, preventing code that doesn't meet quality standards from being committed.
 
----
+### About Me
+
+#### What I love most about being a software engineer
+
+- What I love most is solving real problems through logic and creativity. Turning an idea or a requirement into something tangible that actually works — and seeing people use it — is deeply satisfying. I also enjoy the constant learning; technology evolves fast, and there’s always something new to explore, improve, or optimize.
+
+#### What is most important to me when working in a team
+
+- Clear communication and mutual respect matter the most to me. A strong team isn’t just about individual talent, but about collaboration, trust, and shared ownership. I value teams where people are open to feedback, willing to help each other, and focused on building the best solution rather than protecting egos.
+
+#### The worst part of being a software engineer
+
+- The hardest part is dealing with ambiguity and pressure — unclear requirements, or last-minute changes. Debugging issues that come from poor specifications or external dependencies can be frustrating. That said, these challenges also push me to become more patient, structured, and resilient.

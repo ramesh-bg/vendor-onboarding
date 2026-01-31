@@ -4,6 +4,7 @@ import type { Vendor } from '../models/Vendor';
 
 const router = Router();
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parseIntSafe = (v: any, def: number) => {
   const n = parseInt(v, 10);
   return Number.isNaN(n) || n < 1 ? def : n;
