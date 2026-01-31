@@ -1,64 +1,57 @@
 import { Router, Request, Response } from "express";
 import db from "../db/database";
-import { Vendor } from "../models/Vendor";
+import type { Vendor } from "../models/Vendor";
 
 const router = Router();
 
-// GET /vendors - List all vendors
+const parseIntSafe = (v: any, def: number) => {
+  const n = parseInt(v, 10);
+  return Number.isNaN(n) || n < 1 ? def : n;
+};
+
 router.get("/", (req: Request, res: Response) => {
-  const { page, per_page, name, email } = req.query;
+  const { page = 1, per_page = 10, name, email, sort = "latest" } = req.query;
 
-  const pageNum = page ? parseInt(String(page), 10) : NaN;
-  const perPageNum = per_page ? parseInt(String(per_page), 10) : NaN;
+  const pageVal = parseIntSafe(page, 1);
+  const perPageVal = Math.min(parseIntSafe(per_page, 10), 100);
+  const offset = (pageVal - 1) * perPageVal;
 
-  const pageVal = Number.isNaN(pageNum) || pageNum < 1 ? 1 : pageNum;
-  const perPageVal =
-    Number.isNaN(perPageNum) || perPageNum < 1 ? 10 : Math.min(perPageNum, 100);
-
-  // Build WHERE clause for filters
   const filters: string[] = [];
   const params: (string | number)[] = [];
 
   if (name) {
     filters.push("name LIKE ?");
-    params.push(`%${String(name)}%`);
+    params.push(`%${name}%`);
   }
 
   if (email) {
     filters.push("email LIKE ?");
-    params.push(`%${String(email)}%`);
+    params.push(`%${email}%`);
   }
 
-  const whereClause =
-    filters.length > 0 ? "WHERE " + filters.join(" AND ") : "";
+  const where = filters.length ? `WHERE ${filters.join(" AND ")}` : "";
+  const orderBy =
+    sort === "oldest" ? "ORDER BY created_at ASC" : "ORDER BY created_at DESC";
 
   db.get(
-    `SELECT COUNT(*) as count FROM vendors ${whereClause}`,
+    `SELECT COUNT(*) as count FROM vendors ${where}`,
     params,
-    (err, result: { count: number }) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-
-      const total = result.count;
-      const totalPages = Math.max(1, Math.ceil(total / perPageVal));
-      const offset = (pageVal - 1) * perPageVal;
+    (err, countRow: { count: number }) => {
+      if (err) return res.status(500).json({ error: err.message });
 
       db.all(
-        `SELECT * FROM vendors ${whereClause} LIMIT ? OFFSET ?`,
+        `SELECT * FROM vendors ${where} ${orderBy} LIMIT ? OFFSET ?`,
         [...params, perPageVal, offset],
         (err2, rows) => {
-          if (err2) {
-            return res.status(500).json({ error: err2.message });
-          }
+          if (err2) return res.status(500).json({ error: err2.message });
 
-          return res.json({
+          res.json({
             data: rows,
             meta: {
-              total,
+              total: countRow.count,
               page: pageVal,
               per_page: perPageVal,
-              total_pages: totalPages,
+              total_pages: Math.max(1, Math.ceil(countRow.count / perPageVal)),
             },
           });
         },
@@ -67,7 +60,6 @@ router.get("/", (req: Request, res: Response) => {
   );
 });
 
-// POST /vendors - Register a new vendor
 router.post("/", (req: Request, res: Response) => {
   const { name, contact_person, email, partner_type } = req.body as Vendor;
 
@@ -75,19 +67,20 @@ router.post("/", (req: Request, res: Response) => {
     return res.status(400).json({ error: "All fields are required" });
   }
 
-  if (partner_type !== "Supplier" && partner_type !== "Partner") {
+  if (!["Supplier", "Partner"].includes(partner_type)) {
     return res
       .status(400)
-      .json({ error: 'partner_type must be either "Supplier" or "Partner"' });
+      .json({ error: 'partner_type must be "Supplier" or "Partner"' });
   }
 
-  const sql = `INSERT INTO vendors (name, contact_person, email, partner_type) 
-                   VALUES (?, ?, ?, ?)`;
+  const sql = `
+    INSERT INTO vendors (name, contact_person, email, partner_type)
+    VALUES (?, ?, ?, ?)
+  `;
 
   db.run(sql, [name, contact_person, email, partner_type], function (err) {
     if (err) {
-      // Handle UNIQUE constraint violation on email
-      if (err.message.includes("UNIQUE constraint failed")) {
+      if (err.message.includes("UNIQUE constraint")) {
         return res.status(409).json({ error: "Email already exists" });
       }
       return res.status(500).json({ error: err.message });
@@ -103,24 +96,14 @@ router.post("/", (req: Request, res: Response) => {
   });
 });
 
-// DELETE /vendors/:id - Delete a vendor by ID
+/* ---------- DELETE /vendors/:id ---------- */
 router.delete("/:id", (req: Request, res: Response) => {
   const { id } = req.params;
 
-  if (!id) {
-    return res.status(400).json({ error: "Vendor ID is required" });
-  }
-
-  const sql = "DELETE FROM vendors WHERE id = ?";
-
-  db.run(sql, [id], function (err) {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-
-    if (this.changes === 0) {
+  db.run("DELETE FROM vendors WHERE id = ?", [id], function (err) {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!this.changes)
       return res.status(404).json({ error: "Vendor not found" });
-    }
 
     res.json({ message: "Vendor deleted successfully", id });
   });

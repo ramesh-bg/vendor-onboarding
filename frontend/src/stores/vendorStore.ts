@@ -46,7 +46,7 @@ export const useVendorStore = defineStore("vendor", () => {
         search.query,
       );
 
-      const list = res.data.reverse();
+      const list = res.data;
       vendors.value = append ? [...vendors.value, ...list] : list;
 
       page.value = res.meta.page;
