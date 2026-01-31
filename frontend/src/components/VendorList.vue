@@ -78,12 +78,11 @@
     <div
       v-if="!vendorStore.loadingFetch || vendorStore.vendors.length > 0"
       :class="styles.tableWrapper"
-      class="vendor-list-scroll max-h-[600px] overflow-y-auto"
+      class="vendor-list-scroll max-h-[600px] overflow-y-auto px-0"
     >
       <table :class="styles.table" role="table">
         <thead>
           <tr>
-            <th :class="styles.tableHeadCell">ID</th>
             <th :class="styles.tableHeadCell">Company</th>
             <th :class="styles.tableHeadCell">Name</th>
             <th :class="styles.tableHeadCell">Email</th>
@@ -93,7 +92,7 @@
         </thead>
         <tbody>
           <tr v-if="vendorStore.vendors.length === 0" role="row">
-            <td :colspan="6" class="no-results-message">
+            <td :colspan="5" class="no-results-message">
               <p>
                 {{
                   searchQuery
@@ -112,14 +111,15 @@
             ]"
             role="row"
             tabindex="0"
+            class="vendor-row"
           >
-            <td data-label="ID" :class="styles.tableCell">
-              {{ vendor.id }}
-            </td>
-            <td data-label="Company" :class="styles.tableCellName">
+            <td
+              :class="styles.tableCellName"
+              class="!text-center !font-semibold !text-lg !text-primary !py-2 !pl-4 sm:!text-left sm:!text-base"
+            >
               {{ vendor.name }}
             </td>
-            <td data-label="Name" :class="styles.tableCell">
+            <td data-label="Contact Person" :class="styles.tableCell">
               {{ vendor.contact_person }}
             </td>
             <td data-label="Email" :class="styles.tableCellEmail">
@@ -143,7 +143,7 @@
                   @click.stop="showDeleteConfirmation(vendor)"
                   :disabled="vendorStore.loadingDelete === vendor.id"
                   aria-label="Delete vendor"
-                  class="cursor-pointer text-danger !text-center"
+                  class="cursor-pointer text-danger !text-center xs:!text-right"
                 >
                   <TrashIcon class="w-5 h-5" />
                 </a>
@@ -159,9 +159,6 @@
             :class="[styles.tableBodyRow, { [styles.tableBodyRowZebra]: true }]"
             role="row"
           >
-            <td data-label="ID" :class="styles.tableCell">
-              <div class="skeleton skeleton-text"></div>
-            </td>
             <td data-label="Name" :class="styles.tableCellName">
               <div class="skeleton skeleton-text"></div>
             </td>
@@ -187,13 +184,13 @@
               vendorStore.vendors.length > 0
             "
           >
-            <td :colspan="5" class="no-more-vendors">
+            <td :colspan="4" class="no-more-vendors">
               <p>No more vendors to load</p>
             </td>
           </tr>
           <!-- Sentinel element for Intersection Observer -->
           <tr>
-            <td :colspan="6">
+            <td :colspan="5">
               <div ref="sentinel" class="sentinel"></div>
             </td>
           </tr>
@@ -504,7 +501,6 @@ onBeforeUnmount(() => {
     position: sticky;
     top: var(--space-md);
     max-height: calc(100vh - 5rem);
-    overflow: hidden;
   }
 
   .vendor-list-card > div:first-child,
@@ -568,5 +564,9 @@ onBeforeUnmount(() => {
   :deep(.overflow-x-auto) {
     border: none;
   }
+}
+
+.vendor-row:nth-child(even) {
+  background-color: rgb(var(--color-surface-elevated) / 0.5);
 }
 </style>

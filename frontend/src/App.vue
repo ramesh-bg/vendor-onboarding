@@ -31,12 +31,12 @@ const { theme, toggleTheme } = useTheme();
         <MoonIcon v-else class="w-6 h-6" />
       </button>
     </header>
-    <main class="flex-1 flex flex-col my-5">
+    <main class="flex-1 flex flex-col my-5 overflow-y-auto">
       <div
         class="grid grid-cols-1 gap-5 auto-rows-max lg:grid-cols-3 lg:gap-2xl lg:items-start"
       >
         <VendorForm />
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-2 z-0">
           <VendorList />
         </div>
       </div>
