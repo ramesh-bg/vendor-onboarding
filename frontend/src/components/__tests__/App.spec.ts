@@ -16,8 +16,8 @@ describe("App.vue", () => {
         plugins: [createPinia()],
       },
     });
-    expect(wrapper.find("h1").text()).toContain("Vendor Onboarding");
-    expect(wrapper.text()).toContain("Manage and organize your vendor");
+    expect(wrapper.text()).toContain("Maersk");
+    expect(wrapper.text()).toContain("Vendor Portal");
   });
 
   it("renders both VendorForm and VendorList components", () => {

@@ -1,8 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import {
-  VendorService,
-  type PaginatedResponse,
-} from "../../services/VendorService";
+import { VendorService } from "../../services/VendorService";
 
 describe("VendorService", () => {
   beforeEach(() => {

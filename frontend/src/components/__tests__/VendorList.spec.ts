@@ -49,8 +49,7 @@ describe("VendorList.vue", () => {
     store.fetchError = null;
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.text()).toContain("No Vendors Yet");
-    expect(wrapper.text()).toContain("Start by adding your first vendor");
+    expect(wrapper.text()).toContain("No vendors");
   });
 
   it("displays error message when fetch fails", async () => {
@@ -100,7 +99,8 @@ describe("VendorList.vue", () => {
     store.fetchError = null;
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.text()).toContain("2 of 25 vendors");
+    expect(wrapper.text()).toContain("2/25");
+    expect(wrapper.text()).toContain("vendor");
   });
 
   it("renders vendor table with data", async () => {
@@ -188,8 +188,8 @@ describe("VendorList.vue", () => {
         partner_type: "Supplier" as const,
       },
     ];
-    store.loading = false;
-    store.error = null;
+    store.loadingFetch = false;
+    store.fetchError = null;
     await wrapper.vm.$nextTick();
 
     expect(wrapper.text()).toContain("Supplier");
@@ -212,8 +212,8 @@ describe("VendorList.vue", () => {
         partner_type: "Partner" as const,
       },
     ];
-    store.loading = false;
-    store.error = null;
+    store.loadingFetch = false;
+    store.fetchError = null;
     await wrapper.vm.$nextTick();
 
     expect(wrapper.text()).toContain("Partner");

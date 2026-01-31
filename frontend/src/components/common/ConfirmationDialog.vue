@@ -9,20 +9,15 @@
       >
         <h3 class="text-xl font-semibold text-text mb-md">Confirm Deletion</h3>
         <p class="text-text-secondary mb-lg">
-          Are you sure you want to delete <span class="font-medium text-primary">{{ itemToConfirm }}</span>?
-          This action cannot be undone.
+          Are you sure you want to delete
+          <span class="font-medium text-primary">{{ itemToConfirm }}</span
+          >? This action cannot be undone.
         </p>
         <div class="flex justify-end gap-md">
-          <button
-            @click="emit('cancel')"
-            :class="styles.buttonSecondary"
-          >
+          <button @click="emit('cancel')" :class="styles.buttonSecondary">
             Cancel
           </button>
-          <button
-            @click="emit('confirm')"
-            :class="styles.buttonDanger"
-          >
+          <button @click="emit('confirm')" :class="styles.buttonDanger">
             Delete
           </button>
         </div>
@@ -39,11 +34,11 @@ interface Props {
   itemToConfirm: string;
 }
 
-const props = defineProps<Props>();
+const { isOpen, itemToConfirm } = defineProps<Props>();
 
 const emit = defineEmits<{
-  (e: 'confirm'): void;
-  (e: 'cancel'): void;
+  (e: "confirm"): void;
+  (e: "cancel"): void;
 }>();
 
 const styles = useFormStyles();
