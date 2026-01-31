@@ -165,11 +165,9 @@ See [Docker Compose](#docker-compose) above for build and run steps.
 
 ## Previews
 
-Experience the Vendors Onboarding Portal in action:
 ![Preview One](./previews/1.png)
 ![Preview Two](./previews/2.png)
 ![Preview Three](./previews/3.png)
-![Preview Four](./previews/4.png)
 
 ---
 
