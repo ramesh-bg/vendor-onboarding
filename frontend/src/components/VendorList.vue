@@ -672,13 +672,6 @@ onBeforeUnmount(() => {
   }
 }
 
-:deep(.tableWrapper) {
-  max-height: 600px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border-radius: var(--radius-md);
-}
-
 /* Mobile: card + header sticky, only list scrolls */
 @media (max-width: 1023px) {
   .vendor-list-card {

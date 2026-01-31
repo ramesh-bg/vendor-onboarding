@@ -20,9 +20,6 @@ export function useFormStyles() {
     inputIcon:
       "absolute left-md w-5 h-5 text-muted stroke-2 stroke-linecap-round stroke-linejoin-round pointer-events-none transition-colors group-focus-within:text-primary",
 
-    inputBase:
-      "w-full py-sm px-md border-2 border-border rounded-md text-base text-text bg-surface font-sans transition-all hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/10",
-
     inputWithIcon:
       "w-full pl-2xl py-sm px-md border-2 border-border rounded-md text-base text-text bg-surface font-sans transition-all hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/10",
 

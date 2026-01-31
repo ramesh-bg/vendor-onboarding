@@ -10,24 +10,31 @@ This is the frontend application for the Vendor Onboarding portal built with Vue
 ## How to Run
 
 1. Navigate to the frontend directory:
+
    ```
    cd frontend
    ```
 
 2. Install dependencies:
+
    ```
    npm install
    ```
+
    or with yarn:
+
    ```
    yarn install
    ```
 
 3. Run the development server:
+
    ```
    npm run dev
    ```
+
    or with yarn:
+
    ```
    yarn dev
    ```
@@ -60,6 +67,7 @@ The application can work with either the Java or Node.js backend. To change whic
 ## Backend URLs
 
 The backend URLs are configured in the `VendorService.ts` file:
+
 - Node.js backend: http://localhost:3000/api
 - Java backend: http://localhost:3001/api
 
@@ -68,16 +76,40 @@ Make sure the corresponding backend server is running before trying to use the f
 ## Running Tests
 
 To run the tests:
+
 ```
 npm run test
 ```
 
 For watch mode:
+
 ```
 npm run test:watch
 ```
 
 For coverage report:
+
 ```
 npm run test:coverage
 ```
+
+## Layout, design tokens & breakpoints
+
+### Layout
+
+- **Grid**: `.app-grid` — one column by default (form above list); at **1024px** switches to two columns: form column 380px, list column `1fr`, gap `--space-2xl`.
+- **Semantics**: `<header>`, `<main>`, `<aside>` (form), `<section aria-label="Vendor directory">` (list).
+
+### Design tokens
+
+Tokens live in **`src/style.css`** (CSS custom properties) and are extended in **`tailwind.config.js`** so utilities like `bg-primary`, `p-md`, `rounded-md` use them.
+
+- **Colors**: RGB triplets (use `rgb(var(--color-primary))` or `rgb(var(--color-primary) / 0.2)`). Semantic names: `--color-primary`, `--color-secondary`, `--color-success` / `--color-danger` / `--color-warning`, `--color-bg` etc.
+- **Spacing**: `--space-xs` (4px) through `--space-2xl` (48px).
+- **Typography**: `--font-sans` (Inter + system fallbacks), `--font-mono`; sizes `--font-size-xs` (0.75rem) to `--font-size-2xl` (1.5rem); weights 400–700; line heights tight/normal/relaxed.
+
+**Theming**: Light = `:root` / `[data-theme="light"]`; dark = `[data-theme="dark"]` with `color-scheme: dark`. Theme is set on `<html>`, stored in `localStorage`, and can initialize from `prefers-color-scheme` (see `useTheme.ts`).
+
+### Breakpoints
+
+Responsive rules use plain **`@media`** in component styles (no Tailwind `screens`). Use these values for consistency:

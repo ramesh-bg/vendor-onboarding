@@ -88,6 +88,7 @@
 
 html {
   scroll-behavior: smooth;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 body {
@@ -96,106 +97,7 @@ body {
   line-height: var(--line-height-normal);
   color: rgb(var(--color-text));
   background-color: rgb(var(--color-bg));
-}
-
-.text-xs {
-  font-size: var(--font-size-xs);
-}
-.text-sm {
-  font-size: var(--font-size-sm);
-}
-.text-base {
-  font-size: var(--font-size-base);
-}
-.text-lg {
-  font-size: var(--font-size-lg);
-}
-.text-xl {
-  font-size: var(--font-size-xl);
-}
-.text-2xl {
-  font-size: var(--font-size-2xl);
-}
-
-.font-normal {
-  font-weight: var(--font-weight-normal);
-}
-.font-medium {
-  font-weight: var(--font-weight-medium);
-}
-.font-semibold {
-  font-weight: var(--font-weight-semibold);
-}
-.font-bold {
-  font-weight: var(--font-weight-bold);
-}
-
-.p-xs {
-  padding: var(--space-xs);
-}
-.p-sm {
-  padding: var(--space-sm);
-}
-.p-md {
-  padding: var(--space-md);
-}
-.p-lg {
-  padding: var(--space-lg);
-}
-.p-xl {
-  padding: var(--space-xl);
-}
-
-.m-xs {
-  margin: var(--space-xs);
-}
-.m-sm {
-  margin: var(--space-sm);
-}
-.m-md {
-  margin: var(--space-md);
-}
-.m-lg {
-  margin: var(--space-lg);
-}
-.m-xl {
-  margin: var(--space-xl);
-}
-
-.text-primary {
-  color: rgb(var(--color-primary));
-}
-.text-secondary {
-  color: rgb(var(--color-secondary));
-}
-.text-success {
-  color: rgb(var(--color-success));
-}
-.text-danger {
-  color: rgb(var(--color-danger));
-}
-.text-warning {
-  color: rgb(var(--color-warning));
-}
-.text-muted {
-  color: rgb(var(--color-muted));
-}
-
-.bg-primary {
-  background-color: rgb(var(--color-primary));
-}
-.bg-secondary {
-  background-color: rgb(var(--color-secondary));
-}
-.bg-surface {
-  background-color: rgb(var(--color-surface));
-}
-
-.border-primary {
-  border-color: rgb(var(--color-primary));
-}
-.border-secondary {
-  border-color: rgb(var(--color-secondary));
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 button {
@@ -271,16 +173,4 @@ h3 {
   line-height: var(--line-height-normal);
   color: rgb(var(--color-text));
   margin-bottom: var(--space-md);
-}
-
-.card {
-  background-color: rgb(var(--color-surface-elevated));
-  border: 1px solid rgb(var(--color-border));
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
-  box-shadow: var(--shadow-md);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-lg);
 }

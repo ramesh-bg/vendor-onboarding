@@ -1,21 +1,20 @@
 <template>
   <header
-    class="border-b border-primary shadow-sm sticky top-0 navbar-bg z-[200]"
+    class="border-b border-primary shadow-sm sticky top-0 z-[200] header-bg"
   >
     <div class="flex justify-between px-8 py-4">
       <a href="/" class="flex items-center gap-4" aria-label="Home">
         <img
           src="/assets/icons/maersk.svg"
           alt="Maersk Logo"
-          class="maersk-logo"
+          class="w-8 h-8 md:w-7 md:h-7"
         />
         <div>
-          <div class="company-name">Maersk</div>
-          <div class="app-badge">Vendor Portal</div>
+          <div class="text-base md:text-xl font-extrabold text-text tracking-tight leading-tight">Maersk</div>
+          <div class="text-[0.6rem] md:text-xs font-bold text-primary uppercase tracking-widest">Vendor Portal</div>
         </div>
       </a>
-      <!-- Actions -->
-      <div class="navbar-actions">
+      <div class="flex-shrink-0 flex items-center gap-sm">
         <button
           type="button"
           class="theme-btn"
@@ -23,9 +22,9 @@
           :aria-label="`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`"
           @click="toggleTheme"
         >
-          <span class="theme-btn-inner">
-            <SunIcon v-if="theme === 'dark'" class="theme-icon" />
-            <MoonIcon v-else class="theme-icon" />
+          <span class="flex items-center justify-center w-full h-full relative">
+            <SunIcon class="theme-icon w-6 h-6 md:w-5 md:h-5 theme-icon-sun" aria-hidden="true" />
+            <MoonIcon class="theme-icon w-6 h-6 md:w-5 md:h-5 theme-icon-moon" aria-hidden="true" />
           </span>
         </button>
       </div>
@@ -42,86 +41,10 @@ const { theme, toggleTheme } = useTheme();
 </script>
 
 <style scoped>
-.navbar {
-  position: relative;
-  width: 100%;
-  flex-shrink: 0;
-  min-height: 72px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.navbar-bg {
+.header-bg {
   background: rgb(var(--color-surface-elevated));
   border-bottom: 1px solid rgb(var(--color-border) / 0.7);
   backdrop-filter: blur(12px);
-}
-
-.maersk-logo {
-  width: 32px;
-  height: 32px;
-}
-
-.company-name {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: rgb(var(--color-text));
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-  font-family: var(--font-sans);
-}
-
-.app-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: rgb(var(--color-primary));
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-/* Center: App Title */
-.navbar-center {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-}
-
-.title-block {
-  text-align: center;
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-md);
-  background: rgb(var(--color-bg) / 0.4);
-  border: 1px solid rgb(var(--color-border) / 0.5);
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.03);
-  backdrop-filter: blur(6px);
-}
-
-.navbar-title {
-  margin: 0;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: rgb(var(--color-text));
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  text-shadow: 0 0.5px 1px rgb(0 0 0 / 0.05);
-}
-
-.navbar-subtitle {
-  margin: 1px 0 0;
-  font-size: var(--font-size-xs);
-  color: rgb(var(--color-muted));
-  font-weight: 500;
-}
-
-/* Actions */
-.navbar-actions {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
 }
 
 .theme-btn {
@@ -157,70 +80,35 @@ const { theme, toggleTheme } = useTheme();
   transform: translateY(0);
 }
 
-.theme-btn-inner {
+.theme-icon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
 }
 
-.theme-icon {
-  width: 24px;
-  height: 24px;
+.theme-icon-sun {
+  opacity: 0;
 }
 
-/* Responsive */
+.theme-icon-moon {
+  opacity: 0;
+}
+
+[data-theme="dark"] .theme-icon-sun {
+  opacity: 1;
+}
+
+[data-theme="light"] .theme-icon-moon {
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
-  .navbar-inner {
-    padding: var(--space-sm) var(--space-lg);
-    gap: var(--space-md);
-  }
-
-  .navbar-center {
-    display: none;
-  }
-
-  .logo-mark {
-    width: 44px;
-    height: 44px;
-  }
-
-  .maersk-logo {
-    width: 28px;
-    height: 28px;
-  }
-
-  .company-name {
-    font-size: 1.1rem;
-  }
-
-  .app-badge {
-    font-size: 0.6rem;
-  }
-
   .theme-btn {
     width: 44px;
     height: 44px;
-  }
-
-  .theme-icon {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .navbar-inner {
-    padding: var(--space-sm) var(--space-xl);
-  }
-
-  .navbar-title {
-    font-size: 1.2rem;
-  }
-
-  .title-block {
-    padding: var(--space-xs) var(--space-sm);
   }
 }
 </style>
