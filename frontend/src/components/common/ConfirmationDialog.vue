@@ -15,7 +15,9 @@
         </p>
         <div class="flex justify-end gap-md">
           <button :class="styles.buttonSecondary" @click="emit('cancel')">Cancel</button>
-          <button :class="styles.buttonDanger" @click="emit('confirm')">Delete</button>
+          <button :class="styles.buttonDanger" :disabled="loading" @click="emit('confirm')">
+            {{ loading ? 'Deleting...' : 'Delete' }}
+          </button>
         </div>
       </div>
     </div>
@@ -28,9 +30,10 @@ import { useFormStyles } from '../../composables/useFormStyles';
 interface Props {
   isOpen: boolean;
   itemToConfirm: string;
+  loading?: boolean;
 }
 
-const { isOpen, itemToConfirm } = defineProps<Props>();
+const { isOpen, itemToConfirm, loading } = defineProps<Props>();
 
 const emit = defineEmits<{
   (e: 'confirm'): void;
