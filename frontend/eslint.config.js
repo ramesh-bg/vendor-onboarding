@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import ts from 'typescript-eslint';
 import vue from 'eslint-plugin-vue';
 import globals from 'globals';
+import vueParser from 'vue-eslint-parser';
 
 export default [
   {
@@ -9,7 +10,6 @@ export default [
   },
   js.configs.recommended,
   ...ts.configs.recommended,
-  ...vue.configs['flat/recommended'],
   {
     files: ['**/*.{vue,js,jsx,cjs,mjs,ts,tsx,cts,mts}'],
     languageOptions: {
@@ -17,23 +17,26 @@ export default [
         ...globals.browser,
         ...globals.node,
       },
-      parser: vue.parseForESLint,
+      parser: vueParser,
       parserOptions: {
-        parser: ts.parser,
+        parser: '@typescript-eslint/parser',
         ecmaVersion: 'latest',
         sourceType: 'module',
       },
     },
+    plugins: {
+      vue: vue,
+    },
     rules: {
-      'vue/multi-word-component-names': 'off',
-      'vue/no-v-html': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
           argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
         },
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
+      ...Object.fromEntries(Object.keys(vue.rules).map((rule) => [`vue/${rule}`, 'off'])),
     },
   },
 ];
