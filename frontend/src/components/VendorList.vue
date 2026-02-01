@@ -26,7 +26,7 @@
               v-model="searchType"
               class="search-dropdown"
               aria-label="Search filter type"
-              @change="handleSearch"
+              @change="onSearchTypeChange"
             >
               <option value="name">Company</option>
               <option value="email">Email</option>
@@ -209,6 +209,7 @@
     <ConfirmationDialog
       :is-open="confirmationDialogOpen"
       :item-to-confirm="vendorToDelete?.name || ''"
+      :loading="vendorStore.loadingDelete === vendorToDelete?.id"
       @confirm="confirmDelete"
       @cancel="cancelDelete"
     />
@@ -253,6 +254,12 @@ const confirmDelete = async () => {
 const cancelDelete = () => {
   confirmationDialogOpen.value = false;
   vendorToDelete.value = null;
+};
+
+const onSearchTypeChange = () => {
+  if (searchQuery.value.trim() !== '') {
+    vendorStore.debounceSearch(searchType.value, searchQuery.value);
+  }
 };
 
 const handleSearch = () => {
