@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-node
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.vendor-onboarding.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-node
+                port:
+                  number: 3000
