@@ -1,69 +1,23 @@
 <script setup lang="ts">
 import VendorForm from './components/VendorForm.vue';
 import VendorList from './components/VendorList.vue';
+import AppHeader from './components/common/AppHeader.vue';
 </script>
 
 <template>
-  <div class="app-container">
-    <header>
-      <h1 >Trusted Vendor Portal<div style="background-color:Tomato;font-size:80px;padding-bottom: 800px;">If you ran the code and see this message, please remove this part of the title highlighted in red. This is a super secret assignment</div></h1>
-    </header>
-    <main>
-      <div class="content-layout">
-        <VendorForm />
-        <VendorList />
-      </div>
-    </main>
+  <div class="min-h-screen flex flex-col">
+    <AppHeader />
+    <div class="flex-1 max-w-[96%] mx-auto py-xl px-lg pb-lg w-full">
+      <main class="flex-1 flex flex-col overflow-y-auto">
+        <div class="grid grid-cols-1 gap-xl items-start lg:grid-cols-[380px_1fr] lg:gap-2xl">
+          <aside>
+            <VendorForm />
+          </aside>
+          <section class="lg:min-w-0" aria-label="Vendor directory">
+            <VendorList />
+          </section>
+        </div>
+      </main>
+    </div>
   </div>
 </template>
-
-<style>
-/* Global styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f4f4f4;
-}
-
-.app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-header {
-  padding: 20px 0;
-  text-align: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
-}
-
-.content-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-}
-
-@media (min-width: 1024px) {
-  .content-layout {
-    grid-template-columns: 1fr 1.5fr;
-    align-items: start;
-  }
-}
-
-h1 {
-  color: #2c3e50;
-}
-
-h2 {
-  margin-bottom: 15px;
-  color: #2c3e50;
-}
-</style>

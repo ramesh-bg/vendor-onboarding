@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitest/config';
-import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'node:url';
 import { mergeConfig } from 'vite';
 import viteConfig from './vite.config';
@@ -12,11 +11,12 @@ export default mergeConfig(
       environment: 'happy-dom',
       globals: true,
       include: ['**/*.{test,spec}.{js,ts,jsx,tsx}'],
+      // setupFiles: ["./vitest.setup.ts"], // Commented out to remove the reference
     },
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
-    }
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
   })
 );
